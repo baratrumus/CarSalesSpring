@@ -1,0 +1,127 @@
+<?carsale version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                https://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/jdbc
+                http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+                http://www.springframework.org/schema/mvc
+                http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                http://www.springframework.org/schema/tx
+                http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+<context:component-scan base-package="carsale.service, carsale.models"/>
+
+<jdbc:initialize-database enabled="true"> <!--data-source="dataSource" -->
+    <jdbc:script location="classpath:db/schema_postgre.sql" encoding="utf-8"/>
+    <jdbc:script location="classpath:db/init_data.sql" encoding="utf-8"/>
+</jdbc:initialize-database>
+
+
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="org.postgresql.Driver" />
+    <property name="url" value="jdbc:postgresql://localhost:5432/hiberItems" />
+    <property name="username" value="postgres" />
+    <property name="password" value="dfghjk" />
+</bean>
+
+
+<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:packagesToScan="carsale.data">
+    <property name="dataSource" ref="dataSource" />
+    <property name="jpaVendorAdapter">
+        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            <property name="showSql" value="true" />
+        </bean>
+    </property>
+    <property name="jpaPropertyMap">
+        <map>
+            <entry key="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect" />
+            <entry key="hibernate.hbm2dll.auto" value="none"/>
+            <entry key="hibernate.format_sql" value="true" />
+            <entry key="hibernate.use_sql_comments" value="true" />
+        </map>
+    </property>
+</bean>
+
+
+<tx:annotation-driven transaction-manager="txManager"/>
+
+<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="emf"/>
+</bean>
+
+<beans profile="postgres">
+    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+</beans>
+
+
+<!--****************************************************************************************-->
+<!--*****MVC-->
+<!--****************************************************************************************-->
+<context:component-scan base-package="carsale.controller"/>
+
+<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+
+<!-- serve static resources (*.html, ...) from src/main/webapp/ -->
+<mvc:default-servlet-handler/>
+
+<!--  all resources inside folder src/main/webapp/resources are mapped so they can be referred to inside JSP files -->
+<mvc:resources mapping="/static/**" location="/resources/, /webjars/">
+    <mvc:cache-control cache-public="true" max-age="2592000"/>
+    <mvc:resource-chain resource-cache="true">
+        <mvc:resolvers>
+            <bean class="org.springframework.web.servlet.resource.WebJarsResourceResolver"/>
+        </mvc:resolvers>
+    </mvc:resource-chain>
+</mvc:resources>
+
+
+<!-- Vierw resolver configuration -->
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"/>
+    <property name="suffix" value=".jsp" />
+</bean>
+
+<bean class="ru.job4j.auto.web.converter.JacksonObjectMapper" id="mapper"/>
+
+<!--  to retrieve images as multipart-data from request -->
+<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+    <property name="maxUploadSize" value="5242880"/> <!--1024 * 1024 * 5 = 5 MB-->
+    <property name="maxInMemorySize" value="1048576"/> <!--1024 * 1024 = 1 MB-->
+    <property name="resolveLazily" value="true"/>
+</bean>
+
+<bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
+    <property name="formatters">
+        <set>
+            <bean class="ru.job4j.auto.web.converter.DateFormatter"/>
+        </set>
+    </property>
+</bean>
+
+<mvc:annotation-driven conversion-service="conversionService">
+    <mvc:message-converters>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+            <property name="objectMapper" ref="mapper"/>
+        </bean>
+    </mvc:message-converters>
+    <mvc:argument-resolvers>
+        <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
+    </mvc:argument-resolvers>
+</mvc:annotation-driven>
+
+<mvc:interceptors>
+    <bean class="ru.job4j.auto.web.DataUrlInterceptor"/>
+</mvc:interceptors>
+
+<!--************************************** MVC *****************************************-->
+
+
+</beans>

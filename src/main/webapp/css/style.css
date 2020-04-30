@@ -1,0 +1,153 @@
+body {
+    margin-left:15px;
+    margin-right:0px;
+    /*background-image: url("../img/car_back.jpg");*/
+}
+
+.container_header {
+    /*background-image: url("/img/bgrCar.png");*/
+    /*background-size: contain, cover;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: right, center center, left;*/
+
+    overflow:visible;
+    max-width: 98%;
+    position: relative;
+    margin-top: 0px;
+    height: 40px;
+}
+
+.container-my {
+    border: khaki;
+    overflow:visible;
+    max-width: 98%;
+    position: relative;
+    margin-top:15px
+}
+
+
+.statusArea {
+    font-size: 16px;
+    height: 30px;
+    margin-top:10px
+}
+
+
+.spaceFill {
+    height: 40px;
+}
+
+.filterArea {
+    height: 30px;
+    margin-top:20px;
+    width: 100%;
+    background-color: lemonchiffon;
+    text-align: center;
+    vertical-align: center;
+}
+
+
+.form_sign_up {
+    padding: 30px;
+    background: lemonchiffon;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.button1 {
+     border-radius: 8px;
+     background-color: khaki;
+     color: black;
+     border: 2px solid  brown;
+     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+     float: left;
+     font-size: 18px;
+     margin-left:20px;
+ }
+
+.buttonSmall {
+    border-radius: 3px;
+    background-color: goldenrod;
+    color: black;
+    border: 1px solid  brown;
+    float: left;
+    font-size: 14px;
+    margin-left:5px;
+}
+
+.buttonRoles {
+    border-radius: 3px;
+    background-color: khaki;
+    color: black;
+    border: 2px solid  brown;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    font-size: 15px;
+}
+
+.buttonTR {
+    border-radius: 8px;
+    background-color: khaki;
+    color: black;
+    border: 2px solid  brown;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    float: right;
+    font-size: 18px;
+}
+
+.boxRoles {
+    float: right;
+    display:inline-block;
+    /*border:1px solid black*/
+}
+
+
+.table {
+    table-layout: fixed;
+    background-color: antiquewhite;
+}
+
+.green {
+    color : green;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.red {
+    color : red;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tableFilter {
+    /*table-layout: fixed;*/
+    float: bottom;
+    width : 60%;
+    text-align: center;
+    vertical-align: center;
+}
+
+
+
+/*td {    word-wrap:break-word;}*/
+
+blockquote {
+    background: url(https://www.axa.de/site/axa-de/get/params_E-35817624/8222246/geparkte-autos-in-reihe.jpg.pagespeed.ce.7CTHh14teL.jpg); /* Фоновый цвет и фоновый рисунок*/
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: white;
+}
+
+
+ul {
+    list-style: none; /*убираем маркеры списка*/
+    margin: 0; /*убираем верхнее и нижнее поле, равное 1em*/
+    padding-left: 0; /*убираем левый отступ, равный 40px*/
+}
+
+li {display: inline;}
+
+
+
+
