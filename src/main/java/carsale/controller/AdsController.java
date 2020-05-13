@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import carsale.data.DbHibernate;
-import carsale.data.DbTmp;
 import carsale.models.*;
 
 import java.util.List;
@@ -24,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 //@RequestMapping("/")
-public class AdsController  implements ControllerTemp {
+public class AdsController {
 
     @SuppressWarnings("unused")
     private static final Logger LOG = LoggerFactory.getLogger(AdsController.class);
-    private static final DbTmp STORAGE = DbHibernate.getInstance();
-
 
 
 
@@ -81,16 +77,11 @@ public class AdsController  implements ControllerTemp {
     }
 
 
-
-
-    @Override
     public boolean createCar(Car car) {
         return STORAGE.createCar(car);
     }
 
 
-
-    @Override
     public Ads getAdById(String id) {
         return STORAGE.getAdById(Integer.parseInt(id));
     }

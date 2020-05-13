@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<form id="editForm"   class="form_sign_up"  method='post' action="${pageContext.servletContext.contextPath}/editUser">
+<form id="editForm"   class="form_sign_up"  modelAttribute="userForm"  method='post' action="${pageContext.servletContext.contextPath}/editUser">
     <h2>User update</h2>
         <c:if test="${error != ''}">
             <div style = "background-color: darksalmon">
@@ -53,8 +53,8 @@
             </div></td></tr>
         </table>
 
-        <c:if test="${userIdfromAdm != null}">
-            <input type="hidden" name='userIdfromAdm' value="<c:out value="${user.getId()}" />">
+        <c:if test="${cameFromAdm != null}">
+            <input type="hidden" name='cameFromAdm' value="yes" />">
         </c:if>
 
 

@@ -1,4 +1,4 @@
-package carsale.data;
+package carsale.dao;
 
 import carsale.models.Roles;
 import carsale.models.Users;
@@ -15,21 +15,21 @@ public class RoleRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Roles createRole(Roles role) {
+    public Roles save(Roles role) {
         em.persist(role);
         return role;
     }
 
-    public Roles getRoleById(Integer id) {
+    public Roles getById(Integer id) {
         Roles role = em.find(Roles.class, id);
         if (role == null) {
-            throw new EntityNotFoundException("Can't find User for ID "
+            throw new EntityNotFoundException("Can't find Role for ID "
                     + id);
         }
         return role;
     }
 
-    public List<Roles> getAllRoles() {
+    public List<Roles> getAll() {
         return em.createQuery("from Roles").getResultList();
     }
 

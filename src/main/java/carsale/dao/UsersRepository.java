@@ -1,7 +1,8 @@
-package carsale.data;
+package carsale.dao;
 
 import carsale.models.Users;
-import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,37 +14,51 @@ import java.util.List;
 
 //Exception will be translated into subclasses of Spring's DataAccessExeption
 @Repository
-public class UserRepository {
+public class UsersRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(UsersRepository.class);
+    private final RoleRepository roleRepository;
 
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
-    public Users updateUser(Users user) {
-        return em.merge(user);
+    public UsersRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
-    @Transactional
-    public void removeUser(Users user) {
-        //Users user1 = em.getReference(Users, id);
-        em.remove(user);
-    }
 
+    /**
+     * Create or update user
+     */
     @Transactional
-    public Users createUser(Users user) {
-        em.persist(user);
+    public Users save(Users user) {
+        if (user.getId() == null) {
+            user.setRole(roleRepository.getById(1));
+            em.persist(user);
+        } else {
+            em.merge(user);
+        }
         return user;
     }
 
-
-    public List<Users> getAllUsers() {
-        Query query = em.createQuery("from Users where role_id = :paramName");
-        query.setParameter("paramName", 2);
-        return query.getResultList();
+    @Transactional
+    public void removeById(int id) {
+        Users user = em.find(Users.class, id);
+        em.remove(user);
     }
 
 
-    public Users getUserByLoginPass(String login, String pass) {
+    public List<Users> getAll() {
+        Query query = em.createQuery("from Users where role_id = :paramName");
+        query.setParameter("paramName", 2);
+        List<Users> res = query.getResultList();
+        for (Users u : res) {
+            LOG.info("User: " + u.toString());
+        }
+        return res;
+    }
+
+
+    public Users getByLoginPass(String login, String pass) {
         Users user = null;
         Query query = em.createQuery("from Users" +
                     " where login = :paramLogin and password = :paramPass");
@@ -57,7 +72,7 @@ public class UserRepository {
     }
 
 
-    public Users getUserById(Integer id) {
+    public Users getUserById(int id) {
         Users user = em.find(Users.class, id);
         if (user == null) {
             throw new EntityNotFoundException("Can't find User for ID "

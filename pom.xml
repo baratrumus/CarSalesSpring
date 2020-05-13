@@ -56,7 +56,7 @@
 
     <profiles>
         <profile>
-            <id>main</id>
+            <id>postgres</id>
 
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>

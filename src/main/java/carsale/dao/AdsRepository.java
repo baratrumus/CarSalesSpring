@@ -1,4 +1,4 @@
-package carsale.data;
+package carsale.dao;
 
 import carsale.models.Ads;
 import org.springframework.stereotype.Repository;
@@ -15,26 +15,27 @@ public class AdsRepository {
     private EntityManager em;
 
     @Transactional
-    public Ads createAd(Ads ads) {
-        em.persist(ads);
-        return ads;
+    public Ads save(Ads ad) {
+        if (ad.getId() == null) {
+            em.persist(ad);
+        } else {
+            em.merge(ad);
+        }
+        return ad;
     }
 
     @Transactional
-    public void removeAd(Ads ad) {
+    public void removeById(int id) {
+        Ads ad = em.find(Ads.class, id);
         em.remove(ad);
     }
 
-    @Transactional
-    public Ads updateAd(Ads ads) {
-        return em.merge(ads);
-    }
 
-    public List<Ads> getAllAds() {
+    public List<Ads> getAll() {
         return em.createQuery("from Ads").getResultList();
     }
 
-    public Ads getAdById(int id) {
+    public Ads getById(int id) {
         Ads ad = em.find(Ads.class, id);
         return ad;
     }

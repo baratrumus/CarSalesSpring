@@ -1,4 +1,4 @@
-package carsale.data;
+package carsale.dao;
 
 
 import carsale.models.*;
@@ -17,8 +17,12 @@ public class CarRepository {
     private EntityManager em;
 
     @Transactional
-    public Car createCar(Car car) {
-        em.persist(car);
+    public Car save(Car car) {
+        if (car.getId() == null) {
+            em.persist(car);
+        } else {
+            em.merge(car);
+        }
         return car;
     }
 
@@ -40,19 +44,19 @@ public class CarRepository {
         return query.getResultList();
     }
 
-    public BodyType getBodyById(Integer id) {
+    public BodyType getBodyById(int id) {
         return em.find(BodyType.class, id);
     }
 
-    public Brands getBrandById(Integer id) {
+    public Brands getBrandById(int id) {
         return em.find(Brands.class, id);
     }
 
-    public Models getModelById(Integer id) {
+    public Models getModelById(int id) {
         return em.find(Models.class, id);
     }
 
-    public Engines getEngineById(Integer id) {
+    public Engines getEngineById(int id) {
         return em.find(Engines.class, id);
     }
 }

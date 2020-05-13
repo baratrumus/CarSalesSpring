@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <!DOCTYPE html>
@@ -18,7 +19,7 @@
 </head>
 
 <body>
-<form id="form1"  class="form_sign_up" method='post' action="${pageContext.servletContext.contextPath}/signup">
+<form:form id="form1"  class="form_sign_up" modelAttribute="userForm" method="post" action="${pageContext.servletContext.contextPath}/signup">
     <c:if test="${error != ''}">
         <div style = "background-color: darksalmon">
             <c:out value="${error}" />
@@ -46,7 +47,6 @@
     <tr><td>
     <b>Phone:</b><br></td>
     <td>
-<%--<input type="tel" id="phone" name="phone" pattern="[+]{1}[0-9]{7-14}" placeholder="+71715717177" required>--%>
 
     <input type="text" class="form-control" id="phone">
     </td></tr>
@@ -61,6 +61,6 @@
     <input class="button1"  type='submit' value='Create'/>
     <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
 
-</form>
+</form:form>
 </body>
 </html>

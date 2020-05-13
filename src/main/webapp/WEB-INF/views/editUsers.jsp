@@ -71,12 +71,12 @@
         <c:forEach var="user" items="${listOfUsers}">
             <tr><td>
                 <form method='get' action="editUser">
-                    <input type="hidden" name='userIdfromAdm' value="<c:out value="${user.getId()}" />">
+                    <input type="hidden" name='cameFromAdm' value="yes" />">
                     <input type='submit' value='Edit'/>
                 </form>
                 <br>
                 <form method='post' action="showusers">
-                    <input type="hidden" name='delId' value="<c:out value="${user.getId()}" />">
+                    <input type="hidden" name='id' value="<c:out value="${user.getId()}" />">
                     <input type='submit' value='Delete'/>
                 </form>
                 </td>
