@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html lang="">
@@ -11,14 +13,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <%--
-       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-        <link href="${pageContext.servletContext.contextPath}/static/style.css" rel="stylesheet"  type="text/css">
-        <script type="text/javascript" src="js/script"/>
-        <link href="css/signin.css" rel="stylesheet"  type="text/css"/>
-    --%>
-
 
     <style>
         <%@include file="/css/style.css"%>
@@ -38,9 +32,9 @@
         </div>
     </c:if>
 
-    <h2>Please sign in</h2>
+    <h2><span class="centred">Please sign in</span></h2>
 
-    <table><tr><td>
+    <table class="table1"><tr><td>
         <b>Login:</b></td>
         <td><input type="text" name='login' id="login" placeholder="Login" required>
         </td></tr>

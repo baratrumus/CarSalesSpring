@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;image/*;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,12 +72,12 @@
 
         <c:forEach var="user" items="${listOfUsers}">
             <tr><td>
-                <form method='get' action="editUser">
+                <form method='get'  action="/users/update/${user.getId()}">
                     <input type="hidden" name='cameFromAdm' value="yes" />">
                     <input type='submit' value='Edit'/>
                 </form>
                 <br>
-                <form method='post' action="showusers">
+                <form method='delete' action="users/delete/${user.getId()}">
                     <input type="hidden" name='id' value="<c:out value="${user.getId()}" />">
                     <input type='submit' value='Delete'/>
                 </form>

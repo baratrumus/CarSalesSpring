@@ -1,5 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 <html>
 <head>
     <title>Create advertisment</title>
@@ -21,10 +24,18 @@
 <body>
 
 
-<form id="adForm"   class="form_sign_up" onsubmit="return validateNewAd()"  method='post' action="${pageContext.servletContext.contextPath}/createAd"  enctype="multipart/form-carsale.data">
+<form id="adForm"   class="form_sign_up" onsubmit="return validateNewAd()"  method='post' action="${pageContext.servletContext.contextPath}/createAd"  enctype="multipart/form-data">
         <h2>Create advertisment</h2>
 
-        <table class="table"><tr><td>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" width="30%"></th>
+                <th scope="col" width="50%"></th>
+            </tr>
+            </thead>
+
+            <tr><td>
             <b>Brand:</b></td>
             <td><select name="brands" id="brands"  width="100px" onchange="getModelsById('0');">
                     <c:forEach var="brand" items="${brandList}">
@@ -37,7 +48,7 @@
 
             <tr><td><b>Model:</b></td>
 
-                <td><select id="xml.models" name="xml.models" width="100px">
+                <td><select id="models" name="models" width="100px">
 
                 </select>
                 </td></tr>
