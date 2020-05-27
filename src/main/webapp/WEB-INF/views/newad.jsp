@@ -86,7 +86,7 @@
                 </td></tr>
 
             <tr><td><b>Photo:</b></td>
-                <td><input type="file" name="file"><br>
+                <td><input type="file" name="file" id="file"><br>
                 </td></tr>
 
             <tr><td><b>Price:</b></td>

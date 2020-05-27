@@ -54,19 +54,15 @@ public class Ads {
     @Column(name = "price")
     private String price;
 
-    @Transient
-    boolean photoExists;
-
-
     public Ads() {
     }
 
-    public Ads(Users userId, Car carDetails, String descr, Timestamp created, Boolean sold, byte[] fileimage, String price) {
+    public Ads(Users userId, Car carDetails, String descr, Timestamp created, byte[] fileimage, String price) {
         this.userId = userId;
         this.carDetails = carDetails;
         this.descr = descr;
         this.created = created;
-        this.sold = sold;
+        this.sold = false;
         this.fileimage = fileimage;
         this.price = price;
     }
@@ -150,11 +146,7 @@ public class Ads {
     }
 
     public boolean isPhotoExists() {
-        return photoExists;
-    }
-
-    public void setPhotoExists(boolean photoExists) {
-        this.photoExists = photoExists;
+        return (getPhoto() == null) ? false : true;
     }
 
 

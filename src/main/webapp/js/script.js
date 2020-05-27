@@ -43,7 +43,6 @@ function validateNewAd() {
     console.log($('#caryear').val());
     console.log($('#color').val());
 
-
     if (($('#models').val() === '') || ($('#models').val()=== null))  {
         alert('Fill the field <Model>');
         return false;

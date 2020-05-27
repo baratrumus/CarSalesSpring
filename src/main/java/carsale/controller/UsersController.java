@@ -32,7 +32,6 @@ public class UsersController {
 
     @GetMapping(value = "/signup")
     public String signUpForm(Model model) {
-        //model.addAttribute("book", new Book());
         return "signup";
     }
 
@@ -67,7 +66,7 @@ public class UsersController {
     }
 
     @GetMapping("/update/{id}")
-    public String update(@PathVariable int id, HttpServletRequest request, Model model) {
+    public String showUpdate(@PathVariable int id, HttpServletRequest request, Model model) {
         String cameFromAdm = request.getParameter("cameFromAdm");
         Users user;
         if (cameFromAdm != null) { //пришли из админки
@@ -81,7 +80,7 @@ public class UsersController {
 
 
     @PostMapping("/update")
-    public String signUp(Model model, @ModelAttribute("userForm") Users user,
+    public String update(Model model, @ModelAttribute("userForm") Users user,
                          HttpServletRequest request, BindingResult result) {
         if (result.hasErrors()) {
             return "error";
@@ -94,12 +93,12 @@ public class UsersController {
         usersService.save(user);
         model.addAttribute("userEdited", "yes");
         String cameFromAdm = request.getParameter("cameFromAdm");
-        if (cameFromAdm != null) {  //пришли их админки юзеров и туда и возвращаемся
+        if (cameFromAdm != null) {  //пришли их админки юзеров и туда возвращаемся
             model.addAttribute("listOfUsers", usersService.getAll());
-            return "editUsers.jsp";
+            return "editUsers";
         } else {    //пришли из личного аккаунта и возвращаемся в лист объявлений
             model.addAttribute("listOfAds", adsService.getAll());
-            return "list.jsp";
+            return "list";
         }
     }
 
@@ -116,4 +115,10 @@ public class UsersController {
     }
 
 
+    @GetMapping("show")
+    public String showUsers(Model model) {
+        model.addAttribute("listOfUsers", usersService.getAll());
+        model.addAttribute("userEdited", "no");
+        return "editUsers";
+    }
 }
