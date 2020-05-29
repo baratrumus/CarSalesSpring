@@ -17,7 +17,6 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-
     public Users save(Users user) {
         try {
             validateUsers(user);
@@ -27,11 +26,9 @@ public class UsersService {
         return usersRepository.save(user);
     }
 
-
     public void removeById(int userId) {
         usersRepository.removeById(userId);
     }
-
 
     public List<Users> getAll() {
         return usersRepository.getAll();
@@ -48,7 +45,6 @@ public class UsersService {
     public boolean isLoginFree(String login) {
         return usersRepository.isLoginFree(login);
     }
-
 
     private void validateUsers(Users user) throws ValidationException {
         if (isNull(user)) {
