@@ -1,7 +1,9 @@
 package carsale.models;
 
 import javax.persistence.*;
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ivannikov Ilya (voldores@mail.ru)
@@ -10,36 +12,29 @@ import java.util.List;
  */
 @Entity
 @Table(name = "carusers")
-public class Users {
+public class Users  implements Principal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //класс Users владеет классом Roles.
-    @ManyToOne (optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn (name = "role_id")
-    private Roles role;
+    @OneToMany (mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Roles> roles;
 
-    @Column(name = "login", unique = true, nullable = false, length = 60)
+    @Column(name = "login", unique = true, nullable = false, length = 100)
     private String login;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Column(name = "password", nullable = false, length = 30)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false, length = 100)
     private String phone;
+
+    @Column(name = "enabled", columnDefinition = "true")
+    private Boolean enabled;
 
     //При удалении юзера удаляются и его объявления
    @OneToMany (mappedBy = "userId", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
@@ -69,12 +64,17 @@ public class Users {
         this.id = id;
     }
 
-    public Roles getRole() {
-        return role;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRole(Roles role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getName() {
+        return login;
     }
 
     public String getLogin() {
@@ -100,4 +100,36 @@ public class Users {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", roles=" + roles +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", enabled=" + enabled +
+                ", adverts=" + adverts +
+                '}';
+    }
+
+
 }

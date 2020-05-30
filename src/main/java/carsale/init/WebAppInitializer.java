@@ -19,18 +19,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     final private static String ENCODING = "UTF-8";
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        //create the root Spring application context
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(ApplicationConfig.class, SecurityConfig.class);
+    public void onStartup(ServletContext servletContext) {
 
-        servletContext.addListener(new ContextLoaderListener(rootContext));
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.scan("carsale.config");
 
-        //Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
-        servletAppContext.register(WebConfig.class);
+        servletContext.addListener(new ContextLoaderListener(context));
 
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(servletAppContext);
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
         // throw NoHandlerFoundException to controller ExceptionHandler.class. Used for <error-page> analogue
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
@@ -44,7 +40,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         encodingFilter.setInitParameter("encoding", ENCODING);
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
-
     }
 
     // spring security configuration must be loaded in the same context, that is created in onStartup()
@@ -61,6 +56,11 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected String[] getServletMappings() {
         return new String[] {"/"};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
     }
 
 }

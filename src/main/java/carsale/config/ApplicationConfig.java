@@ -3,10 +3,11 @@ package carsale.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -20,9 +21,16 @@ import java.util.Properties;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * @author Ivannikov Ilya (voldores@mail.ru)
+ * @version $id
+ * @since 0.1
+ */
+
 @Configuration
-@ComponentScan("carsale")
+@ComponentScan({"carsale.service", "carsale.service", "carsale.dao"})
 @PropertySource("classpath:application.properties")
+@EnableTransactionManagement
 public class ApplicationConfig {
 
     final private static String DEFAULT_LOCALE = "ru";
@@ -50,7 +58,13 @@ public class ApplicationConfig {
                                                                        @Value("${hibernate.use_sql_comments}") String comments) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setPackagesToScan("carsales.models");
+        factoryBean.setPackagesToScan("carsale.models");
+
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        ((HibernateJpaVendorAdapter) vendorAdapter).setGenerateDdl(true);
+        ((HibernateJpaVendorAdapter) vendorAdapter).setShowSql(true);
+        factoryBean.setJpaVendorAdapter(vendorAdapter);
+
         Properties cfg = new Properties();
         cfg.setProperty("hibernate.dialect", dialect);
         cfg.setProperty("hibernate.show_sql", showSql);
@@ -69,13 +83,9 @@ public class ApplicationConfig {
         return transactionManager;
     }
 
-
-
-
-
     @Bean
-    public LocaleResolver localeResolver(){
-        SessionLocaleResolver resolver = new SessionLocaleResolver  ();
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver resolver = new SessionLocaleResolver();
         resolver.setDefaultLocale(new Locale(DEFAULT_LOCALE));
         return resolver;
     }

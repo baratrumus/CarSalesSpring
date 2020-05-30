@@ -1,35 +1,31 @@
 package carsale.config;
 
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import javax.annotation.Resource;
-
+/**
+ * @author Ivannikov Ilya (voldores@mail.ru)
+ * @version $id
+ * @since 0.1
+ */
 
 @EnableWebMvc
 @Configuration
-@EnableTransactionManagement
+@ComponentScan({"carsale.controller", "carsale.config"})
 public class WebConfig implements WebMvcConfigurer {
-
-    final private static String WEB_APP = "webapp";
 
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**").addResourceLocations("/" + WEB_APP + "/css/");
-        registry.addResourceHandler("/js/**").addResourceLocations("/" + WEB_APP + "/js/");
-        registry.addResourceHandler("/img/**").addResourceLocations("/" + WEB_APP + "/img/");
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+        registry.addResourceHandler("/img/**").addResourceLocations("/img/");
     }
 
     @Bean

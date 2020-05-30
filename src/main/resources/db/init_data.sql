@@ -1,7 +1,12 @@
-INSERT INTO roles (role_name)
-VALUES ('Guest'),
-       ('User'),
-       ('Admin');
+-- admin/1 user/1 --
+INSERT INTO carusers(login, password, email, phone, enabled)
+VALUES ('user', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'user@mail.ru', '+79161111111', 'true'),
+       ('admin', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'admin@mail.ru', '+79161111111', 'true');
+
+INSERT INTO roles (login, role_name)
+VALUES ('user', 'ROLE_USER'),
+       ('admin', 'ROLE_ADMIN'),
+       ('admin', 'ROLE_USER');
 
 INSERT INTO brands (name)
 VALUES ('Ford'),
@@ -37,10 +42,6 @@ INSERT INTO bodytype(name)
 VALUES ('Седан'),
        ('Универсал'),
        ('Пикап');
-
-INSERT INTO carusers(login, password, email, phone, role_id)
-VALUES ('User', 'User', 'user@mail.ru', '+79161111111', '2'),
-       ('Admin', 'Admin', 'admin@mail.ru', '+79161111111', '3');
 
 INSERT INTO car (brand_id, model_id, engine_id, body_id, car_year, color, mileage)
 VALUES (1, 2, 1, 1, '2010', 'red', 100000),

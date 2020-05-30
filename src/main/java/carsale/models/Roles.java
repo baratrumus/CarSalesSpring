@@ -14,28 +14,25 @@ import java.util.Set;
 @Table(name = "roles")
 public class Roles {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
     @JsonProperty("RoleName")
-    @Column(name = "role_name")
+    @Column(name = "role_name", nullable = false, length = 100)
     private String roleName;
 
-    @OneToMany (mappedBy = "role", fetch = FetchType.EAGER)
-    private Set<Users> users;
-
+    //класс Roles владеет классом Users.
+    @ManyToOne (optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn (name = "login")
+    private Users user;
 
     public Roles() {
     }
 
-
-    public Roles(int id, String roleName) {
-        this.id = id;
+    public Roles(String roleName, Users user) {
         this.roleName = roleName;
-    }
-
-    public Roles(String roleName) {
-        this.roleName = roleName;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -54,12 +51,12 @@ public class Roles {
         this.roleName = roleName;
     }
 
-    public Set<Users> getUsers() {
-        return users;
+    public Users getUser() {
+        return user;
     }
 
-    public void setUsers(Set<Users> users) {
-        this.users = users;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class Roles {
         return "Roles{" +
                 "id=" + id +
                 ", roleName='" + roleName + '\'' +
-                ", users=" + users +
+                ", user=" + user +
                 '}';
     }
 }
