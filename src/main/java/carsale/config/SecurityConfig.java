@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,10 +23,10 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ComponentScan
-@EnableWebSecurity
+@EnableWebSecurity //(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    final public static String REMEMBER_ME_COOKIE = "remember-me";
+    final public static String REMEMBER_ME_COOKIE = "remember_me";
 
     private DataSource dataSource;
 
@@ -34,13 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.dataSource = dataSource;
     }
 
+    //authorization
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery(
-                        "select login, password, enabled from carusers where login=?")
+                        "select username, password, enabled from carusers where username = ?")
                 .authoritiesByUsernameQuery(
-                        "select login, role_name from roles where login=?");
+                        "select username, authority from authorities where username = ?");
     }
 
     @Bean
@@ -48,27 +50,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
+    //autentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/signup", "/login", "/css/**", "/js/**", "/img/**").permitAll()
+                //only unregistred
+                .antMatchers("/signup").not().fullyAuthenticated()
+                .antMatchers("/", "/login", "/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/users/admin").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/")
+                .formLogin().loginPage("/login").permitAll()
+                .defaultSuccessUrl("/").loginProcessingUrl("/login")
+                .failureUrl("/login?error=true")
                 .and()
-                .logout().logoutSuccessUrl("/login?logout=true")
-               // .invalidateHttpSession(true)
-                .and()
+                .logout().permitAll().logoutSuccessUrl("/?logout=true").and()
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(84000)
                 .rememberMeCookieName(REMEMBER_ME_COOKIE)
                 .and()
-                .csrf()
-                .disable();
+                .csrf().disable();
     }
+
+
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

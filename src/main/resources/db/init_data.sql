@@ -1,12 +1,12 @@
 -- admin/1 user/1 --
-INSERT INTO carusers(login, password, email, phone, enabled)
-VALUES ('user', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'user@mail.ru', '+79161111111', 'true'),
-       ('admin', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'admin@mail.ru', '+79161111111', 'true');
+INSERT INTO carusers(username, password, email, phone, enabled)
+VALUES ('admin', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'admin@mail.ru', '+79161111111', 'true'),
+       ('user', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'user@mail.ru', '+79161111111', 'true');
 
-INSERT INTO roles (login, role_name)
-VALUES ('user', 'ROLE_USER'),
-       ('admin', 'ROLE_ADMIN'),
-       ('admin', 'ROLE_USER');
+INSERT INTO authorities (username, authority)
+VALUES ('admin', 'ROLE_ADMIN'),
+       ('admin', 'ROLE_USER'),
+       ('user', 'ROLE_USER');
 
 INSERT INTO brands (name)
 VALUES ('Ford'),

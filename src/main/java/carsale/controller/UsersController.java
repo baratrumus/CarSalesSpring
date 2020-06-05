@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * @author Ivannikov Ilya (voldores@mail.ru)
+ * @version $id
+ * @since 0.1
+ */
+
 @Controller
 @RequestMapping("/users")
 public class UsersController {
@@ -30,40 +36,14 @@ public class UsersController {
     }
 
 
-    @GetMapping(value = "/signup")
-    public String signUpForm(Model model) {
-        return "signup";
+
+    @GetMapping("/admin")
+    public String showUsers(Model model) {
+        model.addAttribute("listOfUsers", usersService.getAll());
+        model.addAttribute("userEdited", "no");
+        return "editUsers";
     }
 
-
-    @PostMapping("/signup")
-    public String signUp(Model model, @RequestParam Map<String, String> allParams,
-                         @RequestBody MultiValueMap<String, String> formData,
-                         @ModelAttribute("userForm") Users user,
-                         HttpServletRequest request,
-                         BindingResult bindingResult) {
-
-        String login = request.getParameter("login");
-        String login1 = allParams.get("login");
-        String login2 = formData.getFirst("login");
-
-        if (usersService.isLoginFree(login)) {
-            usersService.save(user);
-            if (user.getId() != null) {
-                model.addAttribute("user", user);
-                if (!request.getSession().getAttribute("roleName").equals("Admin")) {
-                    request.getSession().setAttribute("login", login);
-                    request.getSession().setAttribute("roleName", user.getRole().getRoleName());
-                    request.getSession().setAttribute("id", user.getId());
-                }
-            }
-            model.addAttribute("listOfAds", adsService.getAll());
-            return "list";
-        } else {
-            model.addAttribute("error", "Login is not free.");
-            return "signup";
-        }
-    }
 
     @GetMapping("/update/{id}")
     public String showUpdate(@PathVariable int id, HttpServletRequest request, Model model) {
@@ -85,10 +65,10 @@ public class UsersController {
         if (result.hasErrors()) {
             return "error";
         }
-        user.setLogin(user.getLogin());
-        user.setPassword(user.getPassword());
-        user.setEmail(user.getEmail());
-        user.setPhone(user.getPhone());
+//        user.setUsername(user.getUsername());
+//        user.setPassword(user.getPassword());
+//        user.setEmail(user.getEmail());
+//        user.setPhone(user.getPhone());
 
         usersService.save(user);
         model.addAttribute("userEdited", "yes");
@@ -114,11 +94,4 @@ public class UsersController {
         return "editUsers";
     }
 
-
-    @GetMapping("show")
-    public String showUsers(Model model) {
-        model.addAttribute("listOfUsers", usersService.getAll());
-        model.addAttribute("userEdited", "no");
-        return "editUsers";
-    }
 }

@@ -1,7 +1,9 @@
 package carsale.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
-import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -12,17 +14,16 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "carusers")
-public class Users  implements Principal {
-
+public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToMany (mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Roles> roles;
+    private Set<Authorities> authorities;
 
-    @Column(name = "login", unique = true, nullable = false, length = 100)
-    private String login;
+    @Column(name = "username", unique = true, nullable = false, length = 100)
+    private String username;
 
     @Column(name = "password", nullable = false, length = 100)
     private String password;
@@ -37,22 +38,22 @@ public class Users  implements Principal {
     private Boolean enabled;
 
     //При удалении юзера удаляются и его объявления
-   @OneToMany (mappedBy = "userId", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+   @OneToMany (mappedBy = "userId", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
    private List<Ads> adverts;
 
 
     public Users() {
     }
 
-    public Users(String login, String password, String email, String phone) {
-        this.login = login;
+    public Users(String username, String password, String email, String phone) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
     }
 
-    public Users(String login, String password) {
-        this.login = login;
+    public Users(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
@@ -72,17 +73,12 @@ public class Users  implements Principal {
         this.password = password;
     }
 
-    @Override
-    public String getName() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -101,12 +97,12 @@ public class Users  implements Principal {
         this.phone = phone;
     }
 
-    public Set<Roles> getRoles() {
-        return roles;
+    public Set<Authorities> getAuthorities() {
+        return this.authorities;
     }
 
-    public void setRoles(Set<Roles> roles) {
-        this.roles = roles;
+    public void setAuthorities(Set<Authorities> roles) {
+        this.authorities = roles;
     }
 
     public Boolean getEnabled() {
@@ -121,14 +117,33 @@ public class Users  implements Principal {
     public String toString() {
         return "Users{" +
                 "id=" + id +
-                ", roles=" + roles +
-                ", login='" + login + '\'' +
+                ", roles=" + authorities +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", enabled=" + enabled +
-                ", adverts=" + adverts +
                 '}';
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
 
