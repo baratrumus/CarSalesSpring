@@ -4,6 +4,16 @@ body {
     /*background-image: url("../img/car_back.jpg");*/
 }
 
+.left {
+    float: left;
+    text-align:left;
+}
+
+.right {
+    float: right;
+    text-align:right;
+}
+
 .container_header {
     /*background-image: url("/img/bgrCar.png");*/
     /*background-size: contain, cover;*/
@@ -13,7 +23,7 @@ body {
     overflow:visible;
     max-width: 98%;
     position: relative;
-    margin-top: 0px;
+    margin-top: 0;
     height: 40px;
 }
 
@@ -27,9 +37,31 @@ body {
 
 
 .statusArea {
-    font-size: 16px;
+    font-size: 20px;
+    color: brown;
     height: 30px;
     margin-top:10px
+}
+
+.errClass {
+    /*border-color: darksalmon;*/
+    /*border: 1px solid red;*/
+    /*background-color: darksalmon;*/
+    color: darksalmon;
+    font-weight: bold;
+    margin: 30px 0px;
+    font-size: 16px;
+}
+
+.successClass {
+    /*border-color: lightgreen;*/
+    /*border: 1px solid lightgreen;*/
+    border-color: lightgreen;
+    /*border: 1px solid red;*/
+    background-color: lightgreen;
+    font-weight: bold;
+    margin: 30px 0px;
+    font-size: 13px;
 }
 
 
@@ -46,8 +78,19 @@ body {
     vertical-align: center;
 }
 
+span .centred {
+    text-align: center;
+    vertical-align: center;
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    margin: 0 auto;
+}
 
 .form_sign_up {
+    border: 2px solid  brown;
     padding: 30px;
     background: lemonchiffon;
     position: fixed; top: 50%; left: 50%;
@@ -104,9 +147,42 @@ body {
 
 
 .table {
+    margin-top: 20px;
     table-layout: fixed;
     background-color: antiquewhite;
 }
+
+.table1 {
+    margin-top: 30px;
+}
+
+div .centred_preview {
+    /*width: 300px;*/
+    height: 300px;
+    line-height: 300px;
+    display: flex;
+    justify-content: center; /*центрируем элемент по горизонтали */
+    align-items: center; /* и вертикали */
+    overflow: hidden;
+    border: 2px solid #000;
+}
+
+.centred_preview img {
+    vertical-align: middle;
+    position: absolute;
+    margin: auto;
+    width: border-box;
+    transform: scale(1,1);
+    transition: 0.3s ease;
+}
+
+.centred_preview:hover img {
+    transform: scaleX(1.5) scaleY(1.5);
+}
+
+/*.car_image {*/
+/*    align-self:center;*/
+/*}*/
 
 .green {
     color : green;

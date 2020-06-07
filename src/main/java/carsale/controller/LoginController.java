@@ -1,7 +1,6 @@
 package carsale.controller;
 
 import carsale.config.SecurityConfig;
-import carsale.models.Ads;
 import carsale.models.Users;
 import carsale.service.AdsService;
 import carsale.service.UsersService;
@@ -15,10 +14,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * @author Ivannikov Ilya (voldores@mail.ru)
@@ -32,13 +31,12 @@ public class LoginController {
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
     private PersistentTokenRepository tokenRepository;
     private UsersService usersService;
-    private AdsService adsService;
+
 
     @Autowired
-    public LoginController(PersistentTokenRepository tokenRepository, UsersService usersService, AdsService as) {
+    public LoginController(PersistentTokenRepository tokenRepository, UsersService usersService) {
         this.tokenRepository = tokenRepository;
         this.usersService = usersService;
-        this.adsService = as;
     }
 
     @GetMapping("/login")
@@ -60,26 +58,27 @@ public class LoginController {
 
     @GetMapping(value = "/signup")
     public String signUpForm(Model model) {
+        model.addAttribute("userForm", new Users());
         return "signup";
     }
 
 
     @PostMapping("/signup")
-    public String signUp(Model model, HttpServletRequest request,
-                         @ModelAttribute("userForm") Users user) {
+    public String signUp(@ModelAttribute("userForm") Users userForm, Model model) {
 
-        String login = user.getUsername();
-
-        if (usersService.isLoginFree(login)) {
-            usersService.save(user);
-            if (user.getId() != null) {
-                model.addAttribute("user", user);
-
-            }
-            model.addAttribute("listOfAds", adsService.getAll());
-            return "list";
+        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
+            model.addAttribute("passError", "passes are different");
+            return "signup";
+        }
+        if (!usersService.isLoginFree(userForm.getUsername())) {
+            model.addAttribute("bizyNameError", "this name is bizy");
+            return "signup";
+        }
+        Users user = usersService.save(userForm);
+        if (user.getId() != null) {
+            return "redirect:/login?created=true";
         } else {
-            model.addAttribute("error", "Login is not free.");
+            model.addAttribute("DBerror", "Database error");
             return "signup";
         }
     }

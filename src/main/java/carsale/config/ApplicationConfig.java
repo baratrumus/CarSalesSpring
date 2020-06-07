@@ -28,7 +28,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 
 @Configuration
-@ComponentScan({"carsale.service", "carsale.service", "carsale.dao"})
+@ComponentScan({"carsale.service", "carsale.config", "carsale.dao"})
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class ApplicationConfig {

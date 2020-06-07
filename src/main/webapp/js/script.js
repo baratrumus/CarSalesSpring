@@ -1,7 +1,7 @@
 
 
 function toMain() {
-    window.location.href = '/cars';
+    window.location.href = '/';
 }
 
 

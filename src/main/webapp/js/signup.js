@@ -8,7 +8,7 @@ function validate() {
     var ret = false;
     var email = $('#email').val();
     var pass = $('#password').val();
-    var login = $('#login').val();
+    var login = $('#username').val();
     var phone = $('#phone').val();
 
     var l_ogin = loginCheck(login);
@@ -30,14 +30,14 @@ function validate() {
 
 function loginCheck(login) {
     if (login === '')  {
-        printError('loginError', 'login', 'fill login');
+        printError('loginErrorJS', 'username', 'fill login');
         return false;
     } else if (login.length < 4){
-        printError('loginError', 'login', 'login no less than 4 signs');
+        printError('loginErrorJS', 'username', 'login no less than 4 signs');
         return false;
     } else {
-        $('#loginError').empty();
-        $('#login').css("border", '2px solid lightgreen');
+        $('#loginErrorJS').empty();
+        $('#username').css("border", '2px solid lightgreen');
         // $('#login').parent().removeClass().addClass('successClass');
         return true;
     }
@@ -45,13 +45,13 @@ function loginCheck(login) {
 
 function passCheck(pass) {
     if (pass === '')  {
-        printError('passError', 'password',  'fill password');
+        printError('passErrorJS', 'password',  'fill password');
         return false;
     } else if (pass.length < 4){
-        printError('passError', 'password','pass no less than 4 signs');
+        printError('passErrorJS', 'password','pass no less than 4 signs');
         return false;
     } else {
-        $('#passError').empty();
+        $('#passErrorJS').empty();
         $('#password').css("border", '2px solid lightgreen');
         return true;
     }
@@ -59,13 +59,13 @@ function passCheck(pass) {
 
 function phoneCheck(phone) {
     if (phone === '')  {
-        printError('phoneError', 'phone',  'fill phone number');
+        printError('phoneErrorJS', 'phone',  'fill phone number');
         return false;
     } else if (phone[phone.length - 1] === '_'){
-        printError('phoneError', 'phone','input correct number');
+        printError('phoneErrorJS', 'phone','input correct number');
         return false;
     } else {
-        $('#phoneError').empty();
+        $('#phoneErrorJS').empty();
         $('#phone').css("border", '2px solid lightgreen');
         return true;
     }
@@ -73,13 +73,13 @@ function phoneCheck(phone) {
 
 function emailCheck(email) {
     if (email === '')  {
-        printError('emailError', 'email',  'Fill email');
+        printError('emailErrorJS', 'email',  'fill email');
         return false;
     } else if (!isValidEmailAddress(email)){
-        printError('emailError', 'email','Input correct email');
+        printError('emailErrorJS', 'email','Input correct email');
         return false;
     } else {
-        $('#emailError').empty();
+        $('#emailErrorJS').empty();
         $('#email').css('border', '2px solid lightgreen');
         return true;
     }
@@ -93,7 +93,7 @@ function emailCheck(email) {
 
 function printError(errorElem, inputElem, message) {
     $('#' + errorElem).empty();
-    $('#' + errorElem).append("<label style='color: darksalmon'>" + message + "</label>");
+    $('#' + errorElem).append("<label style='color: darksalmon; font-size: 16px;'>" + message + "</label>");
     $('#' + inputElem).css({
         "border-width" : "2px",
         "border-color" : "darksalmon",

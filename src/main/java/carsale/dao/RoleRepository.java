@@ -1,13 +1,16 @@
 package carsale.dao;
 
-import carsale.models.Roles;
-import carsale.models.Users;
+import carsale.models.Authorities;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+
+/**
+ * @author Ivannikov Ilya (voldores@mail.ru)
+ * @version $id
+ * @since 0.1
+ */
 
 @Repository
 public class RoleRepository {
@@ -15,22 +18,10 @@ public class RoleRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Roles save(Roles role) {
+    @Transactional
+    public Authorities save(Authorities role) {
         em.persist(role);
         return role;
-    }
-
-    public Roles getById(Integer id) {
-        Roles role = em.find(Roles.class, id);
-        if (role == null) {
-            throw new EntityNotFoundException("Can't find Role for ID "
-                    + id);
-        }
-        return role;
-    }
-
-    public List<Roles> getAll() {
-        return em.createQuery("from Roles").getResultList();
     }
 
 

@@ -3,6 +3,7 @@ package carsale.models;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -22,11 +23,16 @@ public class Users implements UserDetails {
     @OneToMany (mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Authorities> authorities;
 
+    @Size(min = 4, message = "Not less than 4 signs")
     @Column(name = "username", unique = true, nullable = false, length = 100)
     private String username;
 
+    @Size(min = 4, message = "Not less than 4 signs")
     @Column(name = "password", nullable = false, length = 100)
     private String password;
+
+    @Transient
+    private String passwordConfirm;
 
     @Column(name = "email", nullable = false, length = 100)
     private String email;
@@ -41,15 +47,15 @@ public class Users implements UserDetails {
    @OneToMany (mappedBy = "userId", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
    private List<Ads> adverts;
 
-
     public Users() {
     }
 
-    public Users(String username, String password, String email, String phone) {
+    public Users(String username, String password, String pc, String email, String phone) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.passwordConfirm = pc;
     }
 
     public Users(String username, String password) {
@@ -71,6 +77,14 @@ public class Users implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public String getUsername() {
@@ -97,7 +111,7 @@ public class Users implements UserDetails {
         this.phone = phone;
     }
 
-    public Set<Authorities> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 

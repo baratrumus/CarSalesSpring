@@ -3,10 +3,10 @@ INSERT INTO carusers(username, password, email, phone, enabled)
 VALUES ('admin', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'admin@mail.ru', '+79161111111', 'true'),
        ('user', '$2a$10$OjfMhs1B.ZX0MK9RmSpHBOOgNWdm2coJDPak4qwcjqdg1MQsj8i1a', 'user@mail.ru', '+79161111111', 'true');
 
-INSERT INTO authorities (username, authority)
-VALUES ('admin', 'ROLE_ADMIN'),
-       ('admin', 'ROLE_USER'),
-       ('user', 'ROLE_USER');
+INSERT INTO authorities (user_id, username, authority)
+VALUES (1, 'admin', 'ROLE_ADMIN'),
+       (1, 'admin', 'ROLE_USER'),
+       (2, 'user', 'ROLE_USER');
 
 INSERT INTO brands (name)
 VALUES ('Ford'),

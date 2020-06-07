@@ -20,16 +20,22 @@ public class Authorities implements GrantedAuthority {
     @Column(name = "authority", nullable = false, length = 100)
     private String authority;
 
+    @Column(name = "username", nullable = false, length = 100)
+    private String username;
+
     //класс Authorities владеет классом Users.
-    @ManyToOne (optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn (name = "username")
+    @ManyToOne
+    @JoinColumn (name = "user_id")
     private Users user;
+
+
 
     public Authorities() {
     }
 
-    public Authorities(String authority, Users user) {
+    public Authorities(String authority, String username, Users user) {
         this.authority = authority;
+        this.username = username;
         this.user = user;
     }
 

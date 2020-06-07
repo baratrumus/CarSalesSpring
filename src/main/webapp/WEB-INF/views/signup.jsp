@@ -20,45 +20,52 @@
 </head>
 
 <body>
-<form:form id="userForm"  class="form_sign_up" onsubmit="return validate()" modelAttribute="userForm" method="post" action="${pageContext.servletContext.contextPath}/signup">
+<form:form id="userForm"  class="form_sign_up" onsubmit="return validate()" modelAttribute="userForm" method="post" action="/signup">
     <c:if test="${error != ''}">
-        <div style = "background-color: darksalmon">
+        <div class="errClass">
             <c:out value="${error}" />
         </div>
     </c:if>
 
     <h2><span class="centred">Sign up</span></h2>
 
-    <table class="table1"><tbody>
-    <tr><td></td>
-        <td><div id="loginError"></div></td></tr>
-    <tr><td><b>Login:</b></td>
-        <td><input type="text"  class="form-control" name='login' id="login" placeholder="Login"></td>
-    </tr>
+    <div class="errClass"> ${DBerror} </div>
 
-    <tr><td></td>
-        <td><div id="passError"></div></td></tr>
-    <tr><td><b>Password:</b></td>
-        <td><input type="password"  class="form-control" name='password' id="password" placeholder="Password">
-        </td></tr>
+    <div>
+        <b>Login:</b>
+        <form:input type="text" class="form-control" id="username" path="username" placeholder="Login"/>
+        <div id="loginErrorJS"></div>
+        <span class="errClass">  ${bizyNameError} </span>
+    </div>
 
-    <tr><td></td>
-        <td><div id="emailError"></div></td></tr>
-    <tr>
-        <td><b>Email:</b></td>
-        <td><input type="email"  class="form-control" name='email' id="email" placeholder="Email">
-        </td></tr>
 
-    <tr><td></td>
-        <td><div id="phoneError"></div></td></tr>
-    <tr>
-        <td><b>Phone:</b><br></td>
-        <td><input type="text" class="form-control" name='phone' id="phone"> </td></tr>
-    <tr><td><div class="spaceFill">
+    <div>
+        <b>Password:</b>
+        <form:input type="password"  class="form-control" id='password' path='password' placeholder="Password"/>
+        <div id="passErrorJS"></div>
+    </div>
 
-    </div></td></tr>
+    <div>
+        <b>Confirm password:</b>
+        <form:input type="password" class="form-control" path="passwordConfirm"
+                    placeholder="Confirm your password"></form:input>
+        <span class="errClass"> ${passError} </span>
+    </div>
 
-    <input type='hidden' name='created' value=''/><br>
+    <div>
+        <b>Email:</b>
+        <form:input type="email" class="form-control" id='email' path='email' placeholder="Email"/>
+        <div id="emailErrorJS"></div>
+    </div>
+
+    <div>
+        <b>Phone:</b><br>
+        <form:input type="text" class="form-control" id='phone' path='phone'/>
+        <div id="phoneErrorJS"></div>
+    </div>
+
+    <div class="spaceFill"></div>
+
     </tbody></table>
 
     <input class="button1"  type='submit' value='Create'/>

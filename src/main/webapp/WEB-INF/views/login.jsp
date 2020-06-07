@@ -38,6 +38,10 @@
             <div class="errClass">Wrong login or password</div>
         </c:if>
 
+        <c:if test="${not empty param.created}">
+            <div class="successClass">Registration is successeful</div>
+        </c:if>
+
         <input type="text" name='username' id="username" class="form-control" placeholder="Login" required autofocus/>
 
         <input type="password" name='password' id="password" class="form-control" placeholder="Password" required/>

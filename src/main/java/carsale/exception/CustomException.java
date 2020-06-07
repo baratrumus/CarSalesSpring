@@ -10,10 +10,6 @@ public class CustomException extends RuntimeException {
         super();
     }
 
-    public CustomException(String message) {
-        super(message);
-    }
-
     public String getFullStackTrace() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);

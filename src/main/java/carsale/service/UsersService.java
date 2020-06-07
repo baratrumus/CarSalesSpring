@@ -1,37 +1,56 @@
 package carsale.service;
 
+import carsale.dao.RoleRepository;
 import carsale.dao.UsersRepository;
+import carsale.models.Authorities;
 import carsale.models.Users;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.xml.bind.ValidationException;
 import java.util.List;
+
+
 import static java.util.Objects.isNull;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UsersService implements UserDetailsService {
     private final UsersRepository usersRepository;
-
-    public UsersService(UsersRepository usersRepository) {
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    public UsersService(UsersRepository usersRepository,
+                        PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
-    @Transactional
     public Users save(Users user) {
         try {
             validateUsers(user);
         } catch (ValidationException vae) {
             vae.printStackTrace();
         }
-        return usersRepository.save(user);
+        if (user.getId() == null) {
+            String encoded = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encoded);
+            user.setEnabled(true);
+            usersRepository.save(user);
+            Authorities role = new Authorities("ROLE_USER", user.getUsername(), user);
+            roleRepository.save(role);
+        } else {
+            usersRepository.update(user);
+        }
+        return user;
     }
+
 
     @Override
     @Transactional
@@ -43,6 +62,7 @@ public class UsersService implements UserDetailsService {
         return user;
     }
 
+
     @Transactional
     public void removeById(int userId) {
         usersRepository.removeById(userId);
@@ -53,10 +73,6 @@ public class UsersService implements UserDetailsService {
         return usersRepository.getAll();
     }
 
-    @Transactional
-    public Users getByLoginPass(String username, String pass) {
-         return usersRepository.getByLoginPass(username, pass);
-    }
 
     @Transactional
     public Users getUserById(int id) {
