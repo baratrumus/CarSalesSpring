@@ -12,6 +12,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 import java.util.Map;
 
 /**
@@ -27,64 +29,97 @@ public class UsersController {
     @SuppressWarnings("unused")
     private static final Logger LOG = LoggerFactory.getLogger(AdsController.class);
     private UsersService usersService;
-    private AdsService adsService;
+
 
     @Autowired
-    public UsersController(UsersService usersService, AdsService adsService) {
+    public UsersController(UsersService usersService) {
         this.usersService = usersService;
-        this.adsService = adsService;
     }
 
+    @GetMapping(value = "/signup")
+    public String signUpForm(Model model) {
+        model.addAttribute("userForm", new Users());
+        return "signup";
+    }
+
+
+    @PostMapping("/signup")
+    public String signUp(@ModelAttribute("userForm") Users userForm, Model model) {
+
+        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
+            model.addAttribute("passError", "passes are different");
+            return "signup";
+        }
+        if (!usersService.isLoginFree(userForm.getUsername())) {
+            model.addAttribute("bizyNameError", "this name is bizy");
+            return "signup";
+        }
+        Users user = usersService.save(userForm);
+        if (user.getId() != null) {
+            return "redirect:/login?created=true";
+        } else {
+            model.addAttribute("DBerror", "Database error");
+            return "signup";
+        }
+    }
 
 
     @GetMapping("/admin")
     public String showUsers(Model model) {
         model.addAttribute("listOfUsers", usersService.getAll());
         model.addAttribute("userEdited", "no");
-        return "editUsers";
+        return "admin";
     }
 
 
     @GetMapping("/update/{id}")
     public String showUpdate(@PathVariable int id, HttpServletRequest request, Model model) {
         String cameFromAdm = request.getParameter("cameFromAdm");
-        Users user;
-        if (cameFromAdm != null) { //пришли из админки
-            model.addAttribute("cameFromAdm", "yes");
-        }
-        user = usersService.getUserById(id);
+        model.addAttribute("cameFromAdm", cameFromAdm);
+
+        Users user = usersService.getUserById(id);
         model.addAttribute("user", user);
-        model.addAttribute("userEdited", "no");
         return "updateUser";
     }
 
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute("userForm") Users user,
-                         HttpServletRequest request, BindingResult result) {
-        if (result.hasErrors()) {
-            return "error";
-        }
-//        user.setUsername(user.getUsername());
-//        user.setPassword(user.getPassword());
-//        user.setEmail(user.getEmail());
-//        user.setPhone(user.getPhone());
+    public String update(Model model, @RequestParam Map<String, String> allParams,
+                         HttpServletRequest request) {
 
-        usersService.save(user);
-        model.addAttribute("userEdited", "yes");
-        String cameFromAdm = request.getParameter("cameFromAdm");
-        if (cameFromAdm != null) {  //пришли их админки юзеров и туда возвращаемся
-            model.addAttribute("listOfUsers", usersService.getAll());
-            return "editUsers";
-        } else {    //пришли из личного аккаунта и возвращаемся в лист объявлений
-            model.addAttribute("listOfAds", adsService.getAll());
-            return "list";
+        int userId = Integer.parseInt(allParams.get("editedUserId"));
+        Users baseUser = usersService.getUserById(userId);
+        model.addAttribute("user", baseUser);
+
+        if (!allParams.get("password").equals(allParams.get("passwordConfirm"))) {
+            model.addAttribute("passError", "passes are different");
+            return "updateUser";
+        }
+        if (!baseUser.getUsername().equals(allParams.get("username")) && !usersService.isLoginFree(allParams.get("username"))) {
+            model.addAttribute("bizyNameError", "this name is bizy");
+            return "updateUser";
+        }
+
+        Boolean passUpdated = (!baseUser.getPassword().equals(allParams.get("password")));
+        baseUser.setUsername(allParams.get("username"));
+        baseUser.setEmail(allParams.get("email"));
+        baseUser.setPhone(allParams.get("phone"));
+        if (passUpdated) {
+            baseUser.setPassword(allParams.get("password"));
+        }
+
+        usersService.update(baseUser, passUpdated);
+        request.getSession().setAttribute("uEdited", "yes");
+        if (!allParams.get("cameFromAdm").equals("")) {
+            return "redirect:/admin";
+        } else {
+            return "redirect:/";
         }
     }
 
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public String delete(@PathVariable int id, Model model) {
         Users user = usersService.getUserById(id);
         if (user != null) {

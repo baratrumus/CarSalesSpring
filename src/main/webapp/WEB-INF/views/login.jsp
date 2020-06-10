@@ -56,10 +56,10 @@
                 <a href="/login?locale=en"><img src="${baseUrl}/img/en.png"/></a>
             </span>
 
-
             <input class="button1"  type='submit' value='Sign in'/>
             <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
         </div>
+
     </form>
 
 </body>

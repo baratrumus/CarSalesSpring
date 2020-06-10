@@ -33,11 +33,6 @@ public class UsersRepository {
     @Autowired
     RoleRepository roleRepository;
 
-    /*public UsersRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }*/
-
-
     /**
      * Create user
      */
@@ -50,7 +45,6 @@ public class UsersRepository {
     /**
      * update user
      */
-    @Transactional
     public Users update(Users user) {
         return em.merge(user);
     }
@@ -67,8 +61,10 @@ public class UsersRepository {
         return false;
     }
 
+
+
     public List<Users> getAll() {
-        Query query = em.createQuery("from Users where role_id = :paramName");
+        Query query = em.createQuery("select from Users where role_id = :paramName");
         query.setParameter("paramName", 2);
         List<Users> res = query.getResultList();
         for (Users u : res) {
@@ -77,19 +73,6 @@ public class UsersRepository {
         return res;
     }
 
-
-//    public Users getByLoginPass(String username, String pass) {
-//        Users user = null;
-//        Query query = em.createQuery("from Users" +
-//                    " where username = :paramLogin and password = :paramPass");
-//        query.setParameter("paramLogin", username);
-//        query.setParameter("paramPass", pass);
-//        List list = query.getResultList();
-//            if (list.size() != 0) {
-//                user = (Users) list.get(0);
-//            }
-//        return user;
-//    }
 
     public Users getByLogin(String username) {
         Users user = null;

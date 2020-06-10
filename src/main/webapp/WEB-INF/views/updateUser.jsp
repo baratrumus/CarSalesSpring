@@ -1,16 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Update</title>
     <meta charset='UTF-8'>
-
     <title>User update</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,59 +14,56 @@
 
     <style><%@include file="/css/style.css"%></style>
 
-    <script type="text/javascript" src="js/signup.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/signup.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/script.js"></script>
 </head>
 
 <body>
-<form id="userForm"   class="form_sign_up"  onsubmit="return validate()"  modelAttribute="userForm"  method='post' action="${pageContext.servletContext.contextPath}/users/update">
-    <h2>User update</h2>
-        <c:if test="${error != ''}">
-            <div style = "background-color: darksalmon">
-                <c:out value="${error}" />
-            </div>
-        </c:if>
+<form id="userForm"  class="form_sign_up" onsubmit="return validate()" method='post' action="/users/update">
 
-    <table class="table1"><tbody>
-    <tr><td></td>
-        <td><div id="loginError"></div></td></tr>
-    <tr><td><b>Login:</b></td>
-        <td><input type="text" name='login' id="login" value="<c:out value="${user.getLogin()}"/>"><br>
-        </td></tr>
+    <h2>User update</h2><br/>
 
+    <span class="errClass">  ${bizyNameError} </span>
 
-    <tr><td></td>
-        <td><div id="passError"></div></td></tr>
-    <tr><td> <b>Password:</b></td>
-        <td><input type="password" name='password' id="password"  value="<c:out value="${user.getPassword()}"/>"><br>
-        </td></tr>
+    <div>
+        <b>Login:</b>
+        <input type="text" class="form-control" id="username" name="username"  value="${user.getUsername()}"/>
+        <div id="loginErrorJS"></div>
+    </div>
 
-    <tr><td></td>
-        <td><div id="emailError"></div></td></tr>
-    <tr><td><b>Email:</b></td>
-        <td><input type="email" name='email' id="email" value="<c:out value="${user.getEmail()}"/>"><br>
-        </td></tr>
+    <div>
+        <b>Password:</b>
+        <input type="password"  class="form-control" id='password' name="password"  value="${user.getPassword()}"/>
+        <div id="passErrorJS"></div>
+    </div>
 
-    <tr><td></td>
-        <td><div id="phoneError"></div></td></tr>
-    <tr><td><b>Phone:</b><br></td>
-        <td><input type="tel" id="phone" name="phone" pattern="[+]{1}[0-9]{7-14}"  value="<c:out value="${user.getPhone()}"/>"><br>
-        </td></tr>
+    <div>
+        <b>Confirm password:</b>
+        <input type="password" class="form-control" name="passwordConfirm" value="${user.getPassword()}"/>
+        <span class="errClass"> ${passError} </span>
+    </div>
 
-    <tr><td><div class="spaceFill">
+    <div>
+        <b>Email:</b>
+        <input type="email" class="form-control" id='email' name='email' value="${user.getEmail()}"/>
+        <div id="emailErrorJS"></div>
+    </div>
 
-    </div></td></tr>
-    </tbody></table>
+    <div>
+        <b>Phone:</b><br>
+        <input type="text" class="form-control" id='phone' name='phone' value="${user.getPhone()}" />
+        <div id="phoneErrorJS"></div>
+    </div>
 
-        <c:if test="${cameFromAdm != null}">
-            <input type="hidden" name='cameFromAdm' value="yes" />">
-        </c:if>
+    <div class="spaceFill"></div>
 
+    <input type="hidden" name='cameFromAdm' value="${cameFromAdm}" />
+    <input type="hidden" name='editedUserId' value="${user.getId()}" />
 
-        <input class="button1"  type='submit' value='Update'/>
-        <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
+    <input class="button1"  type='submit' value='Update'/>
+    <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
 
-    </form>
-
+</form>
 </body>
 </html>
 

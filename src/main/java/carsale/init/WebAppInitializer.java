@@ -39,7 +39,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encoding-filter", new CharacterEncodingFilter());
         encodingFilter.setInitParameter("encoding", ENCODING);
         encodingFilter.setInitParameter("forceEncoding", "true");
-        encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+        encodingFilter.addMappingForUrlPatterns(null, false, "/*");
     }
 
     // spring security configuration must be loaded in the same context, that is created in onStartup()

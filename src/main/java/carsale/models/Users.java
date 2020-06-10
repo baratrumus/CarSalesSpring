@@ -20,7 +20,7 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany (mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Authorities> authorities;
 
     @Size(min = 4, message = "Not less than 4 signs")
@@ -131,7 +131,6 @@ public class Users implements UserDetails {
     public String toString() {
         return "Users{" +
                 "id=" + id +
-                ", roles=" + authorities +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

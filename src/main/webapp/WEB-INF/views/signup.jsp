@@ -8,34 +8,31 @@
 <head>
     <meta charset='UTF-8'>
     <title>Sign up</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+    <c:set var = "baseUrl" scope = "session" value = "${pageContext.servletContext.contextPath}"/>
+
     <style><%@include file="/css/style.css"%></style>
 
-    <script type="text/javascript" src="js/signup.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/signup.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/script.js"></script>
 
 </head>
 
 <body>
-<form:form id="userForm"  class="form_sign_up" onsubmit="return validate()" modelAttribute="userForm" method="post" action="/signup">
-    <c:if test="${error != ''}">
-        <div class="errClass">
-            <c:out value="${error}" />
-        </div>
-    </c:if>
-
+<form:form id="userForm"  class="form_sign_up" onsubmit="return validate()" modelAttribute="userForm" method="post" action="/users/signup">
     <h2><span class="centred">Sign up</span></h2>
 
-    <div class="errClass"> ${DBerror} </div>
+    <span class="errClass"> ${DBerror} </span>
+    <span class="errClass">  ${bizyNameError} </span>
 
     <div>
         <b>Login:</b>
         <form:input type="text" class="form-control" id="username" path="username" placeholder="Login"/>
         <div id="loginErrorJS"></div>
-        <span class="errClass">  ${bizyNameError} </span>
     </div>
 
 
@@ -65,8 +62,6 @@
     </div>
 
     <div class="spaceFill"></div>
-
-    </tbody></table>
 
     <input class="button1"  type='submit' value='Create'/>
     <input class="button1"  type='button' value='Main page' onclick="toMain()"/>

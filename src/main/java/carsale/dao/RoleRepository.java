@@ -23,13 +23,4 @@ public class RoleRepository {
         em.persist(role);
         return role;
     }
-
-
-    /*
-     List<Post> posts = session.createQuery(
-        "select distinct p " +
-        "from Post p " +
-        "join fetch p.comments c")
-    .list();
-     */
 }

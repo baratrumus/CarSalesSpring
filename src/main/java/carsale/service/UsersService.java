@@ -38,18 +38,26 @@ public class UsersService implements UserDetailsService {
         } catch (ValidationException vae) {
             vae.printStackTrace();
         }
-        if (user.getId() == null) {
-            String encoded = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encoded);
-            user.setEnabled(true);
-            usersRepository.save(user);
-            Authorities role = new Authorities("ROLE_USER", user.getUsername(), user);
-            roleRepository.save(role);
-        } else {
-            usersRepository.update(user);
-        }
+        String encoded = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encoded);
+        user.setEnabled(true);
+        usersRepository.save(user);
+        Authorities role = new Authorities("ROLE_USER", user.getUsername(), user);
+        roleRepository.save(role);
         return user;
     }
+
+
+    @Transactional
+    public Users update(Users user, boolean passUpd) {
+        if (passUpd) {
+            String encoded = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encoded);
+        }
+        usersRepository.update(user);
+        return user;
+    }
+
 
 
     @Override
@@ -90,6 +98,9 @@ public class UsersService implements UserDetailsService {
         }
         if (isNull(user.getUsername()) || user.getUsername().isEmpty()) {
             throw new ValidationException("Login is empty");
+        }
+        if (!isNull(user.getId())) {
+            throw new ValidationException("User is not new");
         }
     }
 }

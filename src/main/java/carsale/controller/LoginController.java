@@ -30,19 +30,20 @@ public class LoginController {
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
     private PersistentTokenRepository tokenRepository;
-    private UsersService usersService;
+
 
 
     @Autowired
-    public LoginController(PersistentTokenRepository tokenRepository, UsersService usersService) {
+    public LoginController(PersistentTokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
-        this.usersService = usersService;
+
     }
 
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
@@ -56,30 +57,4 @@ public class LoginController {
     }
 
 
-    @GetMapping(value = "/signup")
-    public String signUpForm(Model model) {
-        model.addAttribute("userForm", new Users());
-        return "signup";
-    }
-
-
-    @PostMapping("/signup")
-    public String signUp(@ModelAttribute("userForm") Users userForm, Model model) {
-
-        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
-            model.addAttribute("passError", "passes are different");
-            return "signup";
-        }
-        if (!usersService.isLoginFree(userForm.getUsername())) {
-            model.addAttribute("bizyNameError", "this name is bizy");
-            return "signup";
-        }
-        Users user = usersService.save(userForm);
-        if (user.getId() != null) {
-            return "redirect:/login?created=true";
-        } else {
-            model.addAttribute("DBerror", "Database error");
-            return "signup";
-        }
-    }
 }
