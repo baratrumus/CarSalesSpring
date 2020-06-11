@@ -20,6 +20,11 @@
 админ - просмотр всех объявлений, просмотр своих объявлений, создание, редактирование, удаление всех объявлений, просмотр, редактирование, удаление всех пользователей;
 
 
+Remember me function implemented. As user login with set checkbox 'Remember me' - token saved to base and to browser cookies.  As long as user logged and dont press logout - he will have auto login function in token life time - set one day.
+
+
+Javascript form validation is used.
+
 TO DO :
 BaseSpringApp  Spring MessageSource RU EN
-TokenRepository
+

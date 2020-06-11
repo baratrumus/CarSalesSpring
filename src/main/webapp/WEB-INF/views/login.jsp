@@ -29,7 +29,8 @@
 </head>
 
 <body  class="text-center">
-    <form class="form-signin"  method='post' action="<c:url value='/login'/>">
+    <form class="form-signin"  method='post' action="<c:url value='/login?targetUrl=${targetUrl}'/>">
+
         <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" var="isAuthorized"/>
 
         <h2 class="form-signin-heading">Please sign in</h2>

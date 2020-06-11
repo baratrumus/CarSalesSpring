@@ -12,18 +12,22 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class AdsTest {
-    private static final DbTmp STORAGE = DbHibernate.getInstance();
+/*
+Если не ошибаюсь аннотация перед методом @WithMockUser(name="gggg", roles="user"
+ */
 
-    @Test
-    @Ignore
-    public void adAdd() {
-        Users user = new Users("tu", "tu");
-        Brands br = STORAGE.getBrandById(1);
-        Car car = new Car(STORAGE.getBrandById(1), STORAGE.getModelById(1), STORAGE.getBodyById(1), STORAGE.getEngineById(1), "f", "f");
-        Ads ad = new Ads(user, car);
-        boolean i = STORAGE.addNewItem(ad);
-        List<Ads> li = STORAGE.getAllItems();
-        assertThat(ad, is(this.STORAGE.getAdById(ad.getId())));
-    }
+public class AdsTest {
+//    private static final DbTmp STORAGE = DbHibernate.getInstance();
+//
+//    @Test
+//    @Ignore
+//    public void adAdd() {
+//        Users user = new Users("tu", "tu");
+//        Brands br = STORAGE.getBrandById(1);
+//        Car car = new Car(STORAGE.getBrandById(1), STORAGE.getModelById(1), STORAGE.getBodyById(1), STORAGE.getEngineById(1), "f", "f");
+//        Ads ad = new Ads(user, car);
+//        boolean i = STORAGE.addNewItem(ad);
+//        List<Ads> li = STORAGE.getAllItems();
+//        assertThat(ad, is(this.STORAGE.getAdById(ad.getId())));
+//    }
 }

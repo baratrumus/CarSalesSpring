@@ -25,7 +25,7 @@
         <mapping class="carsale.models.Models" />
         <mapping class="carsale.models.BodyType" />
         <mapping class="carsale.models.Engines" />
-        <mapping class="carsale.models.Roles" />
+        <mapping class="carsale.models.Authorities" />
         <mapping class="carsale.models.Car" />
 
     </session-factory>

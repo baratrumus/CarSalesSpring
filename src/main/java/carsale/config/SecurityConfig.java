@@ -11,8 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
@@ -55,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //only unregistred
-                .antMatchers("/signup").not().fullyAuthenticated()
+                .antMatchers("/users/signup").not().fullyAuthenticated()
                 .antMatchers("/", "/login", "/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/users/admin").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
@@ -67,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll().logoutSuccessUrl("/?logout=true").and()
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
-                .rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(84000)
+                .rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400)
                 .rememberMeCookieName(REMEMBER_ME_COOKIE)
                 .and()
                 .csrf().disable();
@@ -81,6 +83,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         db.setCreateTableOnStartup(false);
         db.setDataSource(dataSource);
         return db;
+    }
+
+    @Bean
+    public SavedRequestAwareAuthenticationSuccessHandler
+    savedRequestAwareAuthenticationSuccessHandler() {
+
+        SavedRequestAwareAuthenticationSuccessHandler auth
+                = new SavedRequestAwareAuthenticationSuccessHandler();
+        auth.setTargetUrlParameter("targetUrl");
+        return auth;
     }
 
 }
