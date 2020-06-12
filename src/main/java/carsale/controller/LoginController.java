@@ -54,6 +54,7 @@ public class LoginController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().setAttribute("userId", null);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             tokenRepository.removeUserTokens(auth.getName());

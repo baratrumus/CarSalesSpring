@@ -23,7 +23,7 @@
 
     <h1><span class="centred">${errorName}</span></h1>
     <div class="row">
-        <div>${description}"></div>
+        <div>${description}</div>
     </div>
 
 </body>

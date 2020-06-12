@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
@@ -32,7 +33,7 @@ public class Ads {
     private Users userId;
 
     //при удалении объявл. car удаляется
-    @OneToOne (orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne (orphanRemoval = true) //, cascade = CascadeType.ALL)
     @JoinColumn (name = "car_id")
     private Car carDetails;
 
@@ -47,18 +48,19 @@ public class Ads {
     private Boolean sold;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "fileimage", columnDefinition = "bytea")
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] fileimage;
 
     @Column(name = "price")
-    private String price;
+    private int price;
 
     public Ads() {
     }
 
-    public Ads(Users userId, Car carDetails, String descr, Timestamp created, byte[] fileimage, String price) {
-        this.userId = userId;
+    public Ads(Users user, Car carDetails, String descr, Timestamp created, byte[] fileimage, int price) {
+        this.userId = user;
         this.carDetails = carDetails;
         this.descr = descr;
         this.created = created;
@@ -120,11 +122,11 @@ public class Ads {
         this.fileimage = fileimage;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -136,8 +138,8 @@ public class Ads {
         this.carDetails = carDetails;
     }
 
-    public LocalDateTime getDateTime() {
-        return getCreated().toLocalDateTime().withNano(0);
+    public LocalDate getDateTime() {
+        return getCreated().toLocalDateTime().toLocalDate();
     }
 
     public String getPhotoBase64() {
@@ -148,7 +150,6 @@ public class Ads {
     public boolean isPhotoExists() {
         return (getPhoto() == null) ? false : true;
     }
-
 
     @Override
     public String toString() {

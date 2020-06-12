@@ -78,15 +78,33 @@ body {
     vertical-align: center;
 }
 
-span .centred {
+.centred {
     text-align: center;
     vertical-align: center;
     margin: 0 auto;
+    display: flex;
+    justify-content: center; /*центрируем элемент по горизонтали */
+    align-items: center; /* и вертикали */
 }
 
 h2 {
     text-align: center;
     margin: 0 auto;
+}
+
+.twoBlockInline {
+    display:flex;
+    max-width: 100%;
+    height: auto
+}
+.twoInlineLable{
+    display:inline-block;
+    width: 100px;
+    font-weight: bold;
+}
+.twoInlineElem{
+    display:inline-block;
+    width: 300px;
 }
 
 .form_sign_up {
@@ -152,9 +170,10 @@ h2 {
     background-color: antiquewhite;
 }
 
-.table1 {
-    margin-top: 30px;
+.marginSpace {
+    margin-top: 40px;
 }
+
 
 div .centred_preview {
     /*width: 300px;*/

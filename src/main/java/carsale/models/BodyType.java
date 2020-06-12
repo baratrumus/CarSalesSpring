@@ -18,7 +18,7 @@ public class BodyType {
     @Column(name = "name")
     private String bodyName;
 
-    @OneToMany (mappedBy = "body", orphanRemoval = false, fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "body", orphanRemoval = false, fetch = FetchType.LAZY)
     private Set<Car> car;
 
     public BodyType(String bodyName) {

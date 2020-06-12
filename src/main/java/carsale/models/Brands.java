@@ -10,19 +10,19 @@ import java.util.Set;
  * @since 0.1
  */
 @Entity
-@Table(name = "Brands")
+@Table(name = "brands")
 public class Brands {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany (mappedBy = "brand", orphanRemoval = false, fetch = FetchType.EAGER)
-    private Set<Car> car;
-
     @Column(name = "name")
     private String brandName;
 
-    @OneToMany (mappedBy = "brand", fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "brand", orphanRemoval = false, fetch = FetchType.LAZY)
+    private Set<Car> car;
+
+    @OneToMany (mappedBy = "brand", fetch = FetchType.LAZY)
     private Set<Models> models;
 
     public Brands(String brandName) {
@@ -30,7 +30,6 @@ public class Brands {
     }
 
     public Brands() {
-
     }
 
     public Integer getId() {

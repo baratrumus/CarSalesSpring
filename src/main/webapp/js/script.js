@@ -13,17 +13,17 @@ function getModelsById(brand_id) {
         selectedValue = brand_id;
     }
 
-    $.ajax('./ad/getModels', {
+    $.ajax('getModels', {
         method : 'get',
         data: {
-            brandId: selectedValue,
+            brandId: selectedValue
         },
         complete: function(data) {
             if (typeof data === "undefined") {
                 return;
             }
-            console.log(data.responseText);
-            var modelsList = JSON.parse(data.responseText);
+            console.log(data.responseJSON);
+            var modelsList = data.responseJSON;
             console.log(modelsList);
             var selectModels = $('#models');
             selectModels.find("option").remove();

@@ -44,10 +44,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-    @Bean
-    public CommonsMultipartResolver commonsMultipartResolver() {
+    @Bean //(name = "filterMultipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-        cmr.setMaxUploadSize(1000000);
+        cmr.setMaxInMemorySize(10000000);
+        cmr.setDefaultEncoding("utf-8");
+        cmr.setMaxUploadSize(10000000);
         return cmr;
     }
 

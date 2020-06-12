@@ -21,6 +21,7 @@
 
 
 Remember me function implemented. As user login with set checkbox 'Remember me' - token saved to base and to browser cookies.  As long as user logged and dont press logout - he will have auto login function in token life time - set one day.
+Also Context remembers target page, that user looked last.
 
 
 Javascript form validation is used.

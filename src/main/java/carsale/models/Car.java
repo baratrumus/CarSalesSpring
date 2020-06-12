@@ -19,7 +19,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne (mappedBy = "carDetails", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne (mappedBy = "carDetails", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private Ads carAd;
 
     @ManyToOne (optional = false)
@@ -44,14 +44,17 @@ public class Car {
     @Column(name = "color")
     private String color;
 
+    @Column(name = "mileage")
+    private int mileage;
 
-    public Car(Brands brand, Models model, BodyType body, Engines engine, String carYear, String color) {
+    public Car(Brands brand, Models model, BodyType body, Engines engine, String carYear, String color, int mileage) {
         this.brand = brand;
         this.model = model;
         this.body = body;
         this.engine = engine;
         this.carYear = carYear;
         this.color = color;
+        this.mileage = mileage;
     }
 
     public Car() {
@@ -120,5 +123,13 @@ public class Car {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
     }
 }

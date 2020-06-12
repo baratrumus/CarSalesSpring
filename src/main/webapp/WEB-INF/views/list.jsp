@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;image/*;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;image/*;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,61 +23,86 @@
             background-image: url("${baseUrl}/img/car_back.jpg");
             background-size: contain, cover;
             background-repeat: no-repeat;
-         }
+        }
     </style>
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/script.js"></script>
 
 </head>
 
 <body>
+<security:authorize access="isAuthenticated()" var="isAuthenticated"/>
 
-<input id="sessionRoleName" type='hidden' name='roles' value="${sessionScope.roleName}" /><br>
+<security:authorize access="isAuthenticated()">
+    <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" var="isAuthorized"/>
+    <security:authentication property="principal" var="principal"/>
+    <security:authorize access="hasRole('ROLE_ADMIN')" var="securRole"/>
+</security:authorize>
 
 <div class="container_header" id="topBar">
+
     <div class="statusArea" id="topBarIn">
-        <b> Hello, <c:out value="${sessionScope.login}" />.</b>
-        <c:if test="${sessionScope.roleName == 'Admin'}">
-            You can edit all users and advertisments.
+        <security:authorize access="isAnonymous()">
+            <b> Hello, Guest.</b>
+            <c:if test="${param.logout == 'true'}">
+                <b>You have been logged out.</b>
+            </c:if>
+        </security:authorize>
+
+
+        <security:authorize access="isAuthenticated()">
+             <b> You are logged as ${principal.username}. </b>
+        </security:authorize>
+
+        <security:authorize access="hasRole('ROLE_ADMIN')">
+             <b>You can edit all users and advertisments.</b>
+        </security:authorize>
+
+        <c:if test="${sessionScope.adCreated == 'yes'}">
+            <p><b>Your advertisment created.</b></p>
         </c:if>
-        <c:if test="${adCreated == 'yes'}">
-         <p><b>Your advertisment created.</b></p>
-        </c:if>
-        <c:if test="${adEdited == 'yes'}">
+
+        <c:if test="${sessionScope.adEdited == 'yes'}">
             <p><b>Your advertisment updated.</b></p>
         </c:if>
-        <c:if test="${adDeleted == 'yes'}">
-            <p><b>User removed. </b></p>
+
+        <c:if test="${sessionScope.adDeleted == 'yes'}">
+            <p><b>Advertisment removed.</b></p>
         </c:if>
-        <c:if test="${userCreated != null}">
-            <p>User <b><c:out value="${userCreated.getLogin()}" /></b> created.</p>
+
+        <c:if test="${sessionScope.uEdited == 'yes'}">
+             <p><b>Your account is successfully updated.</b></p>
         </c:if>
-        <c:if test="${userEdited == 'yes'}">
-            <p><b>Your account updated. </b></p>
-        </c:if>
+
         <span id="rolesButtons"></span>
+
+        <c:set var = "adCreated" scope = "session" value = ""/>
+        <c:set var = "uEdited" scope = "session" value = ""/>
+        <c:set var = "adDeleted" scope = "session" value = ""/>
+        <c:set var = "adEdited" scope = "session" value = ""/>
     </div>
 </div>
 
+<div class="spaceFill"></div>
 
 <div class="container-my">
     <div class="statusArea">
-        <c:if test="${sessionScope.roleName == 'Guest'}">
+        <c:if test="${not isAuthenticated}">
                 <ul>
                    <li>
-                       <form action="signup" method='get'>
+                       <form:form action="/users/signup" method='get'>
                             <button type="submit" class="button1">
                                 <span class="glyphicon glyphicon-pencil"></span> Sign Up
                             </button>
-                       </form>
+                       </form:form>
                    </li>
-                    <li class=""li_space> </li>
+                   <li> </li>
                    <li>
-                       <form action="signin" method='get'>
+                       <form:form action="login" method='get'>
                             <button type="submit" class="button1">
-                                <span class="glyphicon glyphicon-pencil"></span> Sign In
+                                <span class="glyphicon glyphicon-pencil"></span> Login
                             </button>
-                       </form>
+                       </form:form>
                    </li>
                    <li>
                         <button type="submit" class="buttonTR" onclick="showTestRoles()">
@@ -85,53 +111,56 @@
                    </li>
                 </ul>
         </c:if>
-        <c:if test="${((sessionScope.roleName == 'Admin') || (sessionScope.roleName == 'User'))}">
+        <c:if test="${isAuthenticated}">
             <ul>
                 <li>
-                    <form action="/ad/create" method='get'>
+                    <form:form action="/ad/create" method='get'>
                         <button type="submit" class="button1">
                             <span class="glyphicon glyphicon-pencil"></span> Create Advertisment
                         </button>
-                    </form>
+                    </form:form>
                 </li>
                 <li>
-                    <form action="/users/update/${sessionScope.id}" method='get'>
+                    <form action="/users/update/${sessionScope.userId}" method='get'>
                         <button type="submit" class="button1">
                             <span class="glyphicon glyphicon-pencil"></span> Edit account
                         </button>
                     </form>
                 </li>
                 <li>
-                    <form action='signout' method='get'>
+
+
+                  <form action="<c:url value='/logout'/>" method='get'>
                         <button type="submit" class="button1">
-                            <span class="glyphicon glyphicon-pencil"></span> Sign Out
+                            <span class="glyphicon glyphicon-pencil"></span> Log Out
                         </button>
-                    </form>
+                  </form>
+
                 </li>
             </ul>
         </c:if>
-        <c:if test="${sessionScope.roleName == 'Admin'}">
+        <security:authorize access="hasRole('ROLE_ADMIN')">
             <ul>
                 <li>
-                    <form action='showusers' method='get'>
+                    <form:form action='${baseUrl}/users/admin' method='get'>
                         <button type="submit" class="button1">
                             <span class="glyphicon glyphicon-pencil"></span> Edit users
                         </button>
-                    </form>
+                    </form:form>
                 </li>
 
             </ul>
-        </c:if>
+        </security:authorize>
     </div>
 </div>
 
 <div class="container-my">
     <div class="filterArea">
-    <form method='get' action="${baseUrl}/">
+    <form:form method='get' action="${baseUrl}/">
         <table class="tableFilter"><tr>
 
             <td style="font-size: 16px;"><b>Filters:</b></td>
-            <c:if test="${sessionScope.roleName != 'Guest'}">
+            <c:if test="${isAuthorized}">
                 <td>  <b>Your ads:</b>
                     <input name="onlyUserAds" type="checkbox" value="yes"
                            <c:if test="${onlyUserAds != null}">checked </c:if>
@@ -175,7 +204,7 @@
                 <input class="buttonSmall"  type='submit' value='Apply'/>
             </td>
         </tr></table>
-    </form>
+    </form:form>
     </div>
 </div>
 
@@ -195,17 +224,18 @@
 
     <c:forEach var="ad" items="${listOfAds}">
        <tr><td>
-           <c:if test="${((sessionScope.roleName == 'Admin') || (sessionScope.id == ad.getUserId().getId()))}">
 
-               <form method='get' action="editAd">
+           <c:if test="${((principal.getAuthorities() == 'ROLE_ADMIN') || (sessionScope.userId == ad.getUserId().getId()))}">
+
+               <form:form method='get' action="/ad/update/${ad.getId()}">
                    <input type="hidden" name='adId' value="<c:out value="${ad.getId()}" />">
                    <input type='submit' value='Edit'/>
-               </form>
+               </form:form>
                <br>
-               <form method='post' action="${baseUrl}/">
+               <form:form method='post' action="/ad/delete">
                         <input type="hidden" name='delId' value="<c:out value="${ad.getId()}" />">
                         <input type='submit' value='Delete'/>
-               </form>
+               </form:form>
            </c:if>
 
           <div style="margin-top: 20px;"/>
@@ -219,7 +249,7 @@
            <div class="collapse" id="collapse1<c:out value="${ad.getId()}" />">
                <div style="margin-top: 20px;">
                    <b>Name:</b><br>
-                   <c:out value="${ad.getUserId().getLogin()}" /><br>
+                   <c:out value="${ad.getUserId().getUsername()}" /><br>
                    <b>Phone:</b><br>
                    <c:out value="${ad.getUserId().getPhone()}" /><br>
                    <b>Email:</b><br>
@@ -238,7 +268,7 @@
                <span class="green">In sale</span>
            </c:if>
 
-           <br><br><b>Price: <c:out value="${ad.getPrice()}" /></b>
+           <br><br><b>Price: <c:out value="${ad.getPrice()}" />$</b>
            </td>
 
 
@@ -257,6 +287,8 @@
                <b><c:out value="${ad.getCarDetails().getCarYear()}" /></b><br>
                Color:<br>
                <b><c:out value="${ad.getCarDetails().getColor()}" /></b><br>
+               Mileage:<br>
+               <b><c:out value="${ad.getCarDetails().getMileage()}" /></b><br>
            </td>
 
 

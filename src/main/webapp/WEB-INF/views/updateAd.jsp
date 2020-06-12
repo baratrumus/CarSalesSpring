@@ -16,57 +16,60 @@
 
     <style><%@include file="/css/style.css"%></style>
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/script.js"></script>
 
 </head>
 <body>
-    <form id="editForm"   class="form_sign_up"  method='post' action="${pageContext.servletContext.contextPath}/editAd"  enctype="multipart/form-data">
+    <form:form id="editForm"   class="form_sign_up" modelAttribute="FormDataWithFile"  method='post' action="/ad/update"  enctype="multipart/form-data">
         <h2>Edit advertisment</h2>
         <input type="hidden" name='adId' value="<c:out value="${ad.getId()}" />">
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col" width="25%"></th>
-                <th scope="col" width="70%"></th>
-            </tr>
-            </thead>
+        <span class="errClass">  ${error} </span>
 
-            <tr><td>
-                <b>Actuality:</b></td>
-                <td><select name="isSold" id="isSold">
+        <div class="twoBlockInline">
+            <span class="twoInlineLable">Actuality:</span>
+            <span class="twoInlineElem">
+                <select name="sold" id="sold">
                     <option  <c:if test="${ad.getSold() == 'false'}"> selected </c:if>
-                        value="false">In Sale</option>
+                            value="false">In Sale</option>
                     <option  <c:if test="${ad.getSold() == 'true'}"> selected </c:if>
                             value="true">Sold</option>
                 </select>
-                </td></tr>
+            </span>
+        </div>
 
-            <tr><td><b>Description: </b></td>
-                <td><textarea rows="5" width="300px" name='description' id="description">
+        <div class="twoBlockInline">
+            <span class="twoInlineLable">Description:</span>
+            <span class="twoInlineElem">
+                <textarea rows="5" width="300px" name='description' id="description">
                    <c:out value="${ad.getDescr()}" />
-                    </textarea><br><br>
-                </td></tr>
+                </textarea>
+            </span>
+        </div>
 
-            <tr><td><b>New photo:</b></td>
-                <td><input type='file' name='file'><br>
-                </td></tr>
+        <div class="twoBlockInline">
+            <span class="twoInlineLable">New photo:</span>
+            <span class="twoInlineElem">
+                <input type='file' name='file'>
+            </span>
+        </div>
 
-            <tr><td><b>Price:</b></td>
-                <td><input type='text' name='price' id='price' value="<c:out value="${ad.getPrice()}" />"><br>
-                </td></tr>
+        <div class="twoBlockInline">
+            <span class="twoInlineLable">Price:</span>
+            <span class="twoInlineElem">
+                <input type='text' name='price' id='price' value="<c:out value="${ad.getPrice()}" />"/>
+            </span>
+        </div>
 
-            <tr><td>
-                <button class="button1" type="submit">Apply</button>
-            </td>
+        <div class="twoBlockInline marginSpace">
 
-            <td>
-                <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
-            </td>
-            </tr>
+          <span class="centred">
+            <button class="twoInlineLable button1" type="submit"   onclick="">Apply</button>
+            <input class="twoInlineLable button1"  type='button' value='Main page' onclick="toMain()"/>
+          </span>
+        </div>
 
-        </table>
-    </form>
+    </form:form>
 
 </body>
 </html>

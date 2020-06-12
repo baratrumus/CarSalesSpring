@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <html>
 <head>
@@ -14,7 +14,7 @@
 
     <style><%@include file="/css/style.css"%></style>
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/script.js"></script>
 
     <script>
         $(getModelsById('1'));
@@ -23,86 +23,93 @@
 </head>
 <body>
 
+<form:form id="adForm"  class="form_sign_up" modelAttribute="FormDataWithFile" enctype="multipart/form-data"  onsubmit="return validateNewAd()"  method='post' action="/ad/create">
+        <h2>Create advertisment</h2></br>
 
-<form id="adForm"   class="form_sign_up" onsubmit="return validateNewAd()"  method='post' action="${pageContext.servletContext.contextPath}/createAd"  enctype="multipart/form-data">
-        <h2>Create advertisment</h2>
+        <span class="errClass">  ${error} </span>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col" width="30%"></th>
-                <th scope="col" width="50%"></th>
-            </tr>
-            </thead>
+        <div class="twoBlockInline">
+            <span class="twoInlineLable">Brand:</span>
+            <span class="twoInlineElem"><select class="form-control" name="brands" id="brands" onchange="getModelsById('0');">
+                            <c:forEach var="brand" items="${brandList}">
+                                <option <c:if test="${brand.getId() == 1}"> selected </c:if>
+                                        value="${brand.getId()}">${brand.getBrandName()}</option>
+                            </c:forEach>
+                    </select>
+            </span>
+        </div>
 
-            <tr><td>
-            <b>Brand:</b></td>
-            <td><select name="brands" id="brands"  width="100px" onchange="getModelsById('0');">
-                    <c:forEach var="brand" items="${brandList}">
-                        <option <c:if test="${brand.getId() == 1}"> selected </c:if>
-                                value="${brand.getId()}">${brand.getBrandName()}</option>
-                    </c:forEach>
-                </select>
-            </td></tr>
+        <div class="twoBlockInline">
+            <span class="twoInlineLable">Model:</span>
+            <span class="twoInlineElem"> <select class="form-control" id="models" name="models"> </select></span>
+        </div>
 
-
-            <tr><td><b>Model:</b></td>
-
-                <td><select id="models" name="models" width="100px">
-
-                </select>
-                </td></tr>
-
-
-            <tr><td><b>Body type:</b></td>
-                <td><select name="body" id="body" width="100px">
+         <div class="twoBlockInline">
+             <span class="twoInlineLable">Body type:</span>
+             <span class="twoInlineElem"><select class="form-control" name="body" id="body">
                     <c:forEach var="body" items="${bodyList}">
                         <option value="${body.getId()}">${body.getBodyName()}</option>
                     </c:forEach>
-                </select>
-                </td></tr>
+                     </select>
+             </span>
+         </div>
 
 
-            <tr><td>
-                <b>Engine:</b></td>
-                <td><select name="engine" id="engine"  width="100px">
+         <div class="twoBlockInline">
+             <span class="twoInlineLable">Engine:</span>
+             <span class="twoInlineElem"><select class="form-control" name="engine" id="engine">
                     <c:forEach var="engine" items="${engineList}">
                         <option value="${engine.getId()}">${engine.getEngineName()}</option>
                     </c:forEach>
                 </select>
-                </td></tr>
+             </span>
+         </div>
 
-            <tr><td><b>Car year:</b></td>
-                <td><input type='text' name='caryear' id="caryear"/><br><br>
-                </td></tr>
+         <div class="twoBlockInline">
+             <span class="twoInlineLable">Mileage:</span>
+             <span class="twoInlineElem">  <input class="form-control" type='text' path="miliage" name="mileage" id="mileage"/></span>
+         </div>
+            <form:errors path="mileage" />
 
-            <tr><td><b>Color:</b></td>
-                <td><input type='text' name='color' id="color"/><br><br>
-                </td></tr>
 
-            <tr><td><b>Description:</b></td>
-                <td><textarea rows="5" width="300px" name='description' id="description">
-                    </textarea><br><br>
-                </td></tr>
+         <div class="twoBlockInline">
+             <span class="twoInlineLable">Car year:</span>
+             <span class="twoInlineElem"><input class="form-control" type="text" name="caryear" id="caryear"/></span>
+         </div>
 
-            <tr><td><b>Photo:</b></td>
-                <td><input type="file" name="file" id="file"><br>
-                </td></tr>
+         <div class="twoBlockInline">
+             <span class="twoInlineLable">Color:</span>
+             <span class="twoInlineElem"><input class="form-control" type='text' name='color' id="color"/></span>
+         </div>
 
-            <tr><td><b>Price:</b></td>
-                <td><input type='text' name='price' id="price"/><br>
-                </td></tr>
 
-            <tr><td>
-                <button class="button1" type="submit"   onclick="validateNewAd();">Apply</button>
-            </td>
-            <td>
-            <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
-            </td>
-            </tr>
+          <div class="twoBlockInline">
+              <span class="twoInlineLable">Photo:</span>
+              <span class="twoInlineElem"><input class="form-control" type="file" path="file" name="file" id="file"></span>
+          </div>
+            <form:errors path="file" />
 
-        </table>
-</form>
+
+          <div class="twoBlockInline">
+              <span class="twoInlineLable">Price:</span>
+              <span class="twoInlineElem"><input class="form-control" type='text' name='price' id="price"/></span>
+          </div>
+
+          <div class="twoBlockInline">
+            <div class="twoInlineLable">Description:</div>
+            <div class="twoInlineElem"><textarea class="form-control" rows="5" width="500px" name='description' id="description">
+                 </textarea></div>
+          </div>
+
+    <div class="twoBlockInline marginSpace">
+
+          <span class="centred">
+            <button class="twoInlineLable button1" type="submit"   onclick="validateNewAd();">Apply</button>
+            <input class="twoInlineLable button1"  type='button' value='Main page' onclick="toMain()"/>
+          </span>
+    </div>
+
+</form:form>
 
 
 </body>

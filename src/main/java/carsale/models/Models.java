@@ -23,7 +23,7 @@ public class Models {
     @JoinColumn (name = "brand_id")
     private Brands brand;
 
-    @OneToMany (mappedBy = "model", orphanRemoval = false, fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "model", orphanRemoval = false, fetch = FetchType.LAZY)
     private Set<Car> car;
 
     public Models(String modelName, Brands brand) {
