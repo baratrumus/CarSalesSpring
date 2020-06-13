@@ -16,11 +16,6 @@ function validate() {
     var e_mail = emailCheck(email);
     var p_ass = passCheck(pass);
 
-    console.log('login: ', l_ogin);
-    console.log('pass: ', p_ass);
-    console.log('email: ', e_mail);
-    console.log('phone: ', p_hone);
-
     if (l_ogin && p_hone && e_mail && p_ass) {
         ret = true;
     }

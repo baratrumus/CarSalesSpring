@@ -37,6 +37,7 @@
     <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" var="isAuthorized"/>
     <security:authentication property="principal" var="principal"/>
     <security:authorize access="hasRole('ROLE_ADMIN')" var="securRole"/>
+    <security:authorize access="hasAnyRole('ROLE_ADMIN')" var="isAdmin"/>
 </security:authorize>
 
 <div class="container_header" id="topBar">
@@ -224,8 +225,7 @@
 
     <c:forEach var="ad" items="${listOfAds}">
        <tr><td>
-
-           <c:if test="${((principal.getAuthorities() == 'ROLE_ADMIN') || (sessionScope.userId == ad.getUserId().getId()))}">
+           <c:if test="${((isAdmin) || (sessionScope.userId == ad.getUserId().getId()))}">
 
                <form:form method='get' action="/ad/update/${ad.getId()}">
                    <input type="hidden" name='adId' value="<c:out value="${ad.getId()}" />">
@@ -296,10 +296,14 @@
                <c:out value="${ad.getDescr()}" />
            </td>
 
-            <c:set var="isPhoto" scope="page">${ad.isPhotoExists()}</c:set>
+            <c:set var="isPhoto" scope="page" value = "${ad.isPhotoExists()}"/>
+            <c:set var="isEmbeded" scope="page" value = "${ad.isPhotoEmbeded()}"/>
 
-            <td><div  class="centred_preview" >
-                <c:if test="${isPhoto == false}">
+            <td><div  class="centred_preview">
+                <c:if test="${(!isPhoto) && (isEmbeded)}">
+                    <img class="car_image" src="${baseUrl}/img/embed/${ad.getEmbededPhotoName()}" width="200px"/>
+                </c:if>
+                <c:if test="${(!isPhoto) && (!isEmbeded)}">
                     <img class="car_image" src="${baseUrl}/img/noPhoto.jpg" width="200px"/>
                 </c:if>
                 <c:if test="${isPhoto == true}">
@@ -307,7 +311,6 @@
                 </c:if>
             </div>
             </td>
-
 
        </tr>
     </c:forEach>

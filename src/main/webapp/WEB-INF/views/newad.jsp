@@ -23,14 +23,15 @@
 </head>
 <body>
 
-<form:form id="adForm"  class="form_sign_up" modelAttribute="FormDataWithFile" enctype="multipart/form-data"  onsubmit="return validateNewAd()"  method='post' action="/ad/create">
+<form:form id="adForm"  class="form_sign_up" onsubmit="return validateNewAd()" modelAttribute="FormDataWithFile" enctype="multipart/form-data" method='post' action="/ad/create">
         <h2>Create advertisment</h2></br>
 
         <span class="errClass">  ${error} </span>
 
         <div class="twoBlockInline">
             <span class="twoInlineLable">Brand:</span>
-            <span class="twoInlineElem"><select class="form-control" name="brands" id="brands" onchange="getModelsById('0');">
+            <span class="twoInlineElem">
+                    <select class="form-control" name="brands" id="brands" onchange="getModelsById('0');">
                             <c:forEach var="brand" items="${brandList}">
                                 <option <c:if test="${brand.getId() == 1}"> selected </c:if>
                                         value="${brand.getId()}">${brand.getBrandName()}</option>
@@ -65,30 +66,49 @@
              </span>
          </div>
 
+        <div class="twoBlockInline">
+            <span class="twoInlineLable"></span>
+            <div id="mileageError" class="twoBlockInline"></div>
+        </div>
+
          <div class="twoBlockInline">
              <span class="twoInlineLable">Mileage:</span>
              <span class="twoInlineElem">  <input class="form-control" type='text' path="miliage" name="mileage" id="mileage"/></span>
          </div>
-            <form:errors path="mileage" />
 
+
+
+          <div class="twoBlockInline">
+                <span class="twoInlineLable"></span>
+                <div id="yearError" class="twoBlockInline"></div>
+          </div>
 
          <div class="twoBlockInline">
              <span class="twoInlineLable">Car year:</span>
              <span class="twoInlineElem"><input class="form-control" type="text" name="caryear" id="caryear"/></span>
          </div>
 
+
+
+        <div class="twoBlockInline">
+            <span class="twoInlineLable"></span>
+            <div id="colorError" class="twoBlockInline"></div>
+        </div>
+
          <div class="twoBlockInline">
              <span class="twoInlineLable">Color:</span>
              <span class="twoInlineElem"><input class="form-control" type='text' name='color' id="color"/></span>
          </div>
 
-
           <div class="twoBlockInline">
               <span class="twoInlineLable">Photo:</span>
               <span class="twoInlineElem"><input class="form-control" type="file" path="file" name="file" id="file"></span>
           </div>
-            <form:errors path="file" />
 
+          <div class="twoBlockInline">
+                <span class="twoInlineLable"></span>
+                <div id="priceError" class="twoBlockInline"></div>
+          </div>
 
           <div class="twoBlockInline">
               <span class="twoInlineLable">Price:</span>
@@ -101,11 +121,11 @@
                  </textarea></div>
           </div>
 
-    <div class="twoBlockInline marginSpace">
+         <div class="twoBlockInline marginSpace">
 
           <span class="centred">
-            <button class="twoInlineLable button1" type="submit"   onclick="validateNewAd();">Apply</button>
-            <input class="twoInlineLable button1"  type='button' value='Main page' onclick="toMain()"/>
+            <button class="twoInlineLable button1" type="submit">Apply</button>
+            <input class="twoInlineLable button1" type='button' value='Main page' onclick="toMain()"/>
           </span>
     </div>
 

@@ -38,29 +38,75 @@ function getModelsById(brand_id) {
 }
 
 function validateNewAd() {
-    console.log($('#models').val());
-    console.log(document.getElementById('brands').value);
-    console.log($('#caryear').val());
-    console.log($('#color').val());
+    var ret = false;
 
-    if (($('#models').val() === '') || ($('#models').val()=== null))  {
-        alert('Fill the field <Model>');
-        return false;
+    var ml = validateMileage();
+    var cy = validateYear();
+    var cl = validateColor();
+    var pr = validatePrice();
+
+    if (ml && cy && cl && pr) {
+        ret = true;
     }
-    if ($('#caryear').val() === '') {
-        alert('Fill the field <Car year>');
+    return ret;
+}
+
+function validateColor() {
+    var color = $('#color').val();
+    if (color.trim() === '')  {
+        printError('colorError', 'color','Fill the color.');
         return false;
-    }
-    if ($('#color').val() === '') {
-        alert('Fill the field <Color>');
-        return false;
-    }
-    if ($('#price').val() === '') {
-        alert('Fill the field <Price>');
-        return false;
+    } else {
+        $('#colorError').empty();
+        $('#color').css("border", '2px solid lightgreen');
+        return true;
     }
 }
-//boxRoles
+
+function validateYear() {
+    var caryear = $('#caryear').val();
+    if (caryear.trim() === '')  {
+        printError('yearError', 'caryear','Fill the car year.');
+        return false;
+    } else {
+        $('#yearError').empty();
+        $('#caryear').css("border", '2px solid lightgreen');
+        return true;
+    }
+}
+
+function validatePrice() {
+    var price = $('#price').val();
+
+    if (price.trim() === '')  {
+        printError('priceError', 'price','Fill the price.');
+        return false;
+    } else if (!isFinite(price)) {
+        printError('priceError', 'price','Input digits!');
+        return false;
+    } else {
+        $('#priceError').empty();
+        $('#price').css("border", '2px solid lightgreen');
+        return true;
+    }
+}
+
+function validateMileage() {
+    var mileage = $('#mileage').val();
+
+    if (mileage.trim() === '')  {
+        printError('mileageError', 'mileage','Fill the mileage.');
+        return false;
+    } else if (!isFinite(mileage)) {
+        printError('mileageError', 'mileage','Input digits!');
+        return false;
+    } else {
+        $('#mileageError').empty();
+        $('#mileage').css("border", '2px solid lightgreen');
+        return true;
+    }
+}
+
 
 function showTestRoles() {
     $('#topBar #topBarIn #rolesButtons').empty();
@@ -74,6 +120,16 @@ function showTestRoles() {
         "<input type=\"hidden\" name='login' id=\"login\" value='Admin'>" +
         "<input type=\"hidden\" name='password' id=\"password\" value='Admin'></form></div>"
         );
+}
+
+function printError(errorElem, inputElem, message) {
+    $('#' + errorElem).empty();
+    $('#' + errorElem).append("<label style='color: darksalmon; font-size: 16px;'>" + message + "</label>");
+    $('#' + inputElem).css({
+        "border-width" : "2px",
+        "border-color" : "darksalmon",
+        "border-style" : "solid",
+    });
 }
 
 

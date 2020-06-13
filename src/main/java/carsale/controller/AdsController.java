@@ -134,7 +134,7 @@ public class AdsController {
                           carsService.getEngineById(Integer.parseInt(formDataWithFile.getEngine())),
                           formDataWithFile.getCaryear(),
                           formDataWithFile.getColor(),
-                          Integer.parseInt(formDataWithFile.getMileage()));
+                          Integer.parseInt(formDataWithFile.getMileage().trim()));
 
         if (carsService.create(car).getId() == null) {
             model.addAttribute("error", "Error in car creation");
@@ -143,7 +143,7 @@ public class AdsController {
         }
 
         Ads ad = new Ads(user, car, formDataWithFile.getDescription(), dateNow, byteArr,
-                     Integer.parseInt(formDataWithFile.getPrice()));
+                     Integer.parseInt(formDataWithFile.getPrice().trim()));
 
         if (adsService.save(ad).getId() == null) {
             model.addAttribute("error", "Error in advertisment creation");
@@ -186,7 +186,10 @@ public class AdsController {
         byte[] byteArr = fileToByteArray(file);
         Ads ad = adsService.getById(Integer.parseInt(adId));
         ad.setDescr(formDataWithFile.getDescription());
-        ad.setPrice(Integer.parseInt(formDataWithFile.getPrice()));
+        String price = formDataWithFile.getPrice();
+        if ((price != null) && (!price.equals(""))) {
+            ad.setPrice(Integer.parseInt(formDataWithFile.getPrice().trim()));
+        }
         ad.setSold(Boolean.valueOf(formDataWithFile.getSold()));
         if (byteArr.length != 0) {
             ad.setPhoto(byteArr);

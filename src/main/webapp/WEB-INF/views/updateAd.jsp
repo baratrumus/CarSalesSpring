@@ -20,16 +20,16 @@
 
 </head>
 <body>
-    <form:form id="editForm"   class="form_sign_up" modelAttribute="FormDataWithFile"  method='post' action="/ad/update"  enctype="multipart/form-data">
-        <h2>Edit advertisment</h2>
-        <input type="hidden" name='adId' value="<c:out value="${ad.getId()}" />">
+    <form:form id="editForm"  class="form_sign_up" onsubmit="return validatePrice()"  modelAttribute="FormDataWithFile"  method='post' action="/ad/update"  enctype="multipart/form-data">
+        <h2>Edit advertisment</h2><br/>
 
         <span class="errClass">  ${error} </span>
+
 
         <div class="twoBlockInline">
             <span class="twoInlineLable">Actuality:</span>
             <span class="twoInlineElem">
-                <select name="sold" id="sold">
+                <select  class="form-control" name="sold" id="sold">
                     <option  <c:if test="${ad.getSold() == 'false'}"> selected </c:if>
                             value="false">In Sale</option>
                     <option  <c:if test="${ad.getSold() == 'true'}"> selected </c:if>
@@ -41,7 +41,7 @@
         <div class="twoBlockInline">
             <span class="twoInlineLable">Description:</span>
             <span class="twoInlineElem">
-                <textarea rows="5" width="300px" name='description' id="description">
+                <textarea  class="form-control" rows="5" width="500px" name='description' id="description">
                    <c:out value="${ad.getDescr()}" />
                 </textarea>
             </span>
@@ -50,24 +50,31 @@
         <div class="twoBlockInline">
             <span class="twoInlineLable">New photo:</span>
             <span class="twoInlineElem">
-                <input type='file' name='file'>
+                <input class="form-control" type='file' name='file'>
             </span>
+        </div>
+
+        <div class="twoBlockInline">
+            <span class="twoInlineLable"></span>
+            <div id="priceError" class="twoBlockInline"></div>
         </div>
 
         <div class="twoBlockInline">
             <span class="twoInlineLable">Price:</span>
             <span class="twoInlineElem">
-                <input type='text' name='price' id='price' value="<c:out value="${ad.getPrice()}" />"/>
+                <input class="form-control" type='text' name='price' id='price' value="<c:out value="${ad.getPrice()}" />"/>
             </span>
         </div>
 
         <div class="twoBlockInline marginSpace">
 
           <span class="centred">
-            <button class="twoInlineLable button1" type="submit"   onclick="">Apply</button>
+            <button class="twoInlineLable button1" type="submit">Apply</button>
             <input class="twoInlineLable button1"  type='button' value='Main page' onclick="toMain()"/>
           </span>
         </div>
+
+        <input type="hidden" name='adId' value="<c:out value="${ad.getId()}" />">
 
     </form:form>
 
