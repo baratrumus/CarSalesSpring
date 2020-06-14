@@ -1,9 +1,6 @@
 package carsale.controller;
 
 import carsale.config.SecurityConfig;
-import carsale.models.Users;
-import carsale.service.AdsService;
-import carsale.service.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 /**
  * @author Ivannikov Ilya (voldores@mail.ru)
@@ -49,6 +46,20 @@ public class LoginController {
             model.addAttribute("targetUrl", targetUrl);
         }
         return "login";
+    }
+
+
+    @PostMapping("/auth")
+    public String makeAuthForTestRoles(HttpServletRequest request) {
+        String f = request.getParameter("login");
+        String r = f + 1;
+        try {
+            request.login(request.getParameter("login"), "1");
+        } catch (ServletException e) {
+            LOG.error("Error while login ", e);
+        }
+
+        return "redirect:/";
     }
 
 

@@ -110,15 +110,13 @@ function validateMileage() {
 
 function showTestRoles() {
     $('#topBar #topBarIn #rolesButtons').empty();
-    $('#topBar #topBarIn #rolesButtons').append("<div class='boxRoles'><form action='signin' method='post'>" +
+    $('#topBar #topBarIn #rolesButtons').append("<div class='boxRoles'><form action='/auth' method='post'>" +
         "<button type='submit' class='buttonRoles'>User</button>" +
-        "<input type=\"hidden\" name='login' value='User'>" +
-        "<input type=\"hidden\" name='password' value='User'></form>" +
+        "<input type=\"hidden\" name='login' value='user'></form>" +
 
-        "<form action='signin' method='post'>" +
+        "<form action='/auth' method='post'>" +
         "<button type='submit' class='buttonRoles'>Admin</button>" +
-        "<input type=\"hidden\" name='login' id=\"login\" value='Admin'>" +
-        "<input type=\"hidden\" name='password' id=\"password\" value='Admin'></form></div>"
+        "<input type=\"hidden\" name='login' id=\"login\" value='admin'></form></div>"
         );
 }
 

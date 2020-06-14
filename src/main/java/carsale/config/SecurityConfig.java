@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 //only unregistred
                 .antMatchers("/users/signup").not().fullyAuthenticated()
-                .antMatchers("/", "/login", "/css/**", "/js/**", "/img/**").permitAll()
+                .antMatchers("/",  "/auth", "/login", "/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/users/admin").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()

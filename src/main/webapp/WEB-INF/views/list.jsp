@@ -131,7 +131,7 @@
                 <li>
 
 
-                  <form action="<c:url value='/logout'/>" method='get'>
+                  <form action="/logout" method='get'>
                         <button type="submit" class="button1">
                             <span class="glyphicon glyphicon-pencil"></span> Log Out
                         </button>
