@@ -60,9 +60,9 @@ public class ApplicationConfig {
         factoryBean.setDataSource(dataSource);
         factoryBean.setPackagesToScan("carsale.models");
 
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        ((HibernateJpaVendorAdapter) vendorAdapter).setGenerateDdl(true);
-        ((HibernateJpaVendorAdapter) vendorAdapter).setShowSql(true);
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+        vendorAdapter.setShowSql(true);
         factoryBean.setJpaVendorAdapter(vendorAdapter);
 
         Properties cfg = new Properties();
@@ -90,10 +90,6 @@ public class ApplicationConfig {
     }
 
 /*
-    @Bean
-    public JdbcTemplate jdbc(DataSource ds) {
-        return new JdbcTemplate(ds);
-    }
 
     @Bean
     public SpringSecurityDialect getSpringSecurityDialect() {

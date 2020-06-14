@@ -21,14 +21,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import carsale.models.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
-
-
 
 /**
  * @author Ivannikov Ilya (voldores@mail.ru)
@@ -53,12 +49,13 @@ public class AdsController {
         this.usersService = usersService;
     }
 
+
     @GetMapping(value = "/")
     public String showAds(Model model, HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Integer userId = (auth.getPrincipal().toString() != "anonymousUser") ?
+        Integer userId = (!"anonymousUser".equals(auth.getPrincipal().toString())) ?
                 usersService.loadUserByUsername(auth.getName()).getId() : null;
 
         request.getSession().setAttribute("userId", userId);

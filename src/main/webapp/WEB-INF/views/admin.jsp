@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;image/*;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;image/*;charset=UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,8 +16,6 @@
 
     <style><%@include file="/css/style.css"%></style>
 
-    <c:set var = "baseUrl" scope = "session" value = "${pageContext.servletContext.contextPath}"/>
-
     <style>
         body {
             background-image: url("${baseUrl}/img/car_back.jpg");
@@ -25,7 +24,7 @@
         }
     </style>
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="${baseUrl}/js/script.js"></script>
 
 
 </head>
@@ -33,14 +32,17 @@
 
 <div class="container_header" id="topBar">
     <div class="statusArea" id="topBarIn">
-        <c:if test="${userEdited == 'yes'}">
-            <p><b>User updated. </b></p>
+        <c:if test="${not empty uEdited}">
+            <p><b>User successfully updated.</b></p>
         </c:if>
         <c:if test="${userDeleted == 'yes'}">
             <p><b>User removed. </b></p>
         </c:if>
     </div>
 </div>
+
+<c:set var = "userDeleted" scope = "session" value = ""/>
+<c:set var = "uEdited" scope = "session" value = ""/>
 
 
 <div class="container-my">
@@ -64,7 +66,7 @@
         <tr>
             <th scope="col" width="15%">Actions</th>
             <th scope="col" width="5%">Id</th>
-            <th scope="col" width="12%">Login</th>
+            <th scope="col" width="12%">Username</th>
             <th scope="col" width="10%">Email</th>
             <th scope="col" width="10%">Phone</th>
         </tr>
@@ -72,20 +74,20 @@
 
         <c:forEach var="user" items="${listOfUsers}">
             <tr><td>
-                <form method='get'  action="/users/update/${user.getId()}">
-                    <input type="hidden" name='cameFromAdm' value="yes" />">
+                <form:form method='get'  action="/users/update/${user.getId()}">
+                    <input type="hidden" name='cameFromAdm' value="yes" />
                     <input type='submit' value='Edit'/>
-                </form>
+                </form:form>
                 <br>
-                <form method='delete' action="users/delete/${user.getId()}">
-                    <input type="hidden" name='id' value="<c:out value="${user.getId()}" />">
+                <form:form method='post' action="/users/delete/${user.getId()}">
+                    <input type="hidden" name='id' value="${user.getId()}" />
                     <input type='submit' value='Delete'/>
-                </form>
+                </form:form>
                 </td>
 
                 <td><c:out value="${user.getId()}" /></td>
 
-                <td><c:out value="${user.getLogin()}" /></td>
+                <td><c:out value="${user.getUsername()}" /></td>
 
                 <td><c:out value="${user.getEmail()}" /></td>
 

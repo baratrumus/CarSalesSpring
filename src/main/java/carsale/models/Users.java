@@ -20,7 +20,7 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany (mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "user", fetch = FetchType.EAGER,  orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Authorities> authorities;
 
     @Size(min = 4, message = "Not less than 4 signs")

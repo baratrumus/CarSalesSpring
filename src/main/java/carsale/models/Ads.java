@@ -7,7 +7,6 @@ import javax.persistence.Table;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Base64;
 
 
@@ -26,7 +25,6 @@ public class Ads {
     private Integer id;
 
     //класс Ads владеет классом Users
-    //@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     //при удалении объявл. юзер не удаляется
     @ManyToOne ()
     @JoinColumn (name = "user_id")
@@ -143,12 +141,24 @@ public class Ads {
     }
 
     public String getPhotoBase64() {
-        String imgString  = Base64.getEncoder().encodeToString(fileimage);
-        return imgString;
+        return  Base64.getEncoder().encodeToString(fileimage);
     }
 
     public boolean isPhotoExists() {
-        return (getPhoto() == null) ? false : true;
+        return ((getPhoto() == null) || (getPhoto().length == 0)) ? false : true;
+    }
+
+    public boolean isPhotoEmbeded() {
+        return (getId() < 6);
+    }
+
+    public String getEmbededPhotoName() {
+        String ret = "";
+        String[] photoArr = {"subaru.JPG", "focus.JPG", "m6.JPG", "honda.JPG", "audi.JPG"};
+        if (isPhotoEmbeded()) {
+           ret = photoArr[getId() - 1];
+        }
+        return ret;
     }
 
     @Override

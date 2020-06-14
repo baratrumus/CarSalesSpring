@@ -3,12 +3,16 @@ package carsale.dao;
 
 import carsale.models.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
+
+/**
+ * @author Ivannikov Ilya (voldores@mail.ru)
+ * @version $id
+ * @since 0.1
+ */
 
 @Repository
 public class CarRepository {
@@ -16,7 +20,7 @@ public class CarRepository {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
+
     public Car save(Car car) {
         if (car.getId() == null) {
             em.persist(car);
@@ -27,7 +31,7 @@ public class CarRepository {
     }
 
     public List<Brands> getBrands() {
-       return em.createQuery("from Brands").getResultList();
+        return  em.createQuery("from Brands").getResultList();
     }
 
     public List<BodyType> getBodies() {

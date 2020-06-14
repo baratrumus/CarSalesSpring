@@ -14,8 +14,8 @@
     <!--Этот кусок кода указывает уровни логера для конкретных пакетов.-->
     <Loggers>
         <!-- для конкретного пакета -->
-        <logger name="org.springframework.security" level="debug"/>
-        <AppenderRef ref="Console"/>
+<!--        <logger name="org.springframework.security" level="debug"/>-->
+<!--        <AppenderRef ref="Console"/>-->
         <logger name="org.springframework.web" level="debug"/>
         <AppenderRef ref="Console"/>
      <!-- Здесь для всех пакетов, не отдельно -->

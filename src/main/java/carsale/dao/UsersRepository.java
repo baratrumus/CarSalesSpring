@@ -4,11 +4,8 @@ import carsale.models.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
@@ -50,8 +47,6 @@ public class UsersRepository {
     }
 
 
-
-
     public boolean removeById(int id) {
         Users user = em.find(Users.class, id);
         if (user != null) {
@@ -62,10 +57,8 @@ public class UsersRepository {
     }
 
 
-
     public List<Users> getAll() {
-        Query query = em.createQuery("select from Users where role_id = :paramName");
-        query.setParameter("paramName", 2);
+        Query query = em.createQuery("from Users");
         List<Users> res = query.getResultList();
         for (Users u : res) {
             LOG.info("User: " + u.toString());

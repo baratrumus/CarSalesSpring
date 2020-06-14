@@ -1,17 +1,14 @@
 package carsale.init;
 
-import carsale.config.ApplicationConfig;
 import carsale.config.SecurityConfig;
-import carsale.config.WebConfig;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
-
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -40,12 +37,16 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         encodingFilter.setInitParameter("encoding", ENCODING);
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, false, "/*");
+
+//        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+//        rootContext.register(CommonsMultipartResolver.class);
+//        servletContext.addListener(new ContextLoaderListener(rootContext));
     }
 
     // spring security configuration must be loaded in the same context, that is created in onStartup()
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {SecurityConfig.class};
+        return new Class[] {SecurityConfig.class,  CommonsMultipartResolver.class};
     }
 
     @Override

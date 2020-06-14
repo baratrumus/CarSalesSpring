@@ -1,19 +1,14 @@
 package carsale.controller;
 
 import carsale.models.Users;
-import carsale.service.AdsService;
 import carsale.service.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.Map;
 
 /**
@@ -67,7 +62,7 @@ public class UsersController {
     @GetMapping("/admin")
     public String showUsers(Model model) {
         model.addAttribute("listOfUsers", usersService.getAll());
-        model.addAttribute("userEdited", "no");
+        model.addAttribute("uEdited", "no");
         return "admin";
     }
 
@@ -100,7 +95,7 @@ public class UsersController {
             return "updateUser";
         }
 
-        Boolean passUpdated = (!baseUser.getPassword().equals(allParams.get("password")));
+        boolean passUpdated = (!baseUser.getPassword().equals(allParams.get("password")));
         baseUser.setUsername(allParams.get("username"));
         baseUser.setEmail(allParams.get("email"));
         baseUser.setPhone(allParams.get("phone"));
@@ -111,7 +106,7 @@ public class UsersController {
         usersService.update(baseUser, passUpdated);
         request.getSession().setAttribute("uEdited", "yes");
         if (!allParams.get("cameFromAdm").equals("")) {
-            return "redirect:/admin";
+            return "redirect:/users/admin";
         } else {
             return "redirect:/";
         }
@@ -119,14 +114,14 @@ public class UsersController {
 
 
 
-    @DeleteMapping("delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id, Model model) {
         Users user = usersService.getUserById(id);
         if (user != null) {
             usersService.removeById(id);
             model.addAttribute("userDeleted", "yes");
         }
-        return "editUsers";
+        return "admin";
     }
 
 }
