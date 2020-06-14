@@ -112,10 +112,6 @@
         <profile>
             <id>hsqldb</id>
 
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
             <properties>
                 <db.driver>org.hsqldb.jdbc.JDBCDriver</db.driver>
                 <db.url>jdbc:hsqldb:file:carsDB;sql.enforce_size=false;sql.syntax_pgs=true;hsqldb.lock_file=false</db.url>
@@ -133,6 +129,20 @@
                 </dependency>
             </dependencies>
         </profile>
+
+        <profile>
+            <id>travis</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <db.url>jdbc:postgresql://localhost/carsDB</db.url>
+                <db.username>postgres</db.username>
+                <db.password></db.password>
+                <db.driver>org.postgresql.Driver</db.driver>
+            </properties>
+        </profile>
+
     </profiles>
 
     <build>
