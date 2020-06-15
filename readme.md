@@ -2,7 +2,10 @@
 [![codecov](https://codecov.io/gh/baratrumus/CarSalesSite/branch/master/graph/badge.svg)](https://codecov.io/gh/baratrumus/CarSalesSite/withSpring)
 
 
-## Technologies
+
+## Car sales site application. Version 2.0 Spring
+
+#### Technologies
 * Maven
 * Spring MVC, Spring Security. 
 * PostgreSQL, HSQLDB, Liquibase, Hibernate with Spring Data
@@ -11,19 +14,22 @@
 * SL4J, LOG4J
 
 
-## Car sales site application. General functionality.
+ #### General functionality.
 Application have main page with all advertisments. This page is allowed for all users, including guests.
 Guest can sign up, sign in or use Test Role button for quick authorization and authentication .
 When authorized user appends new Ad, he chooses brand, model, bodytype, engine, photo, description, mileage, price.
 Admin can make CRUD operations on all users.
 
-#### Ads Filters:
-Last day, In sale now, with Photo, By Brand.
 
 #### Authorities:
 Guest: looks all advertisments
 User: Guest func + CRUD of his own advertisments, update own profile data. 
 Admin: User func + CRUD of all users.
+
+
+#### Ads Filters:
+Last day, In sale now, with Photo, By Brand.
+
 
 ## Details 
 
