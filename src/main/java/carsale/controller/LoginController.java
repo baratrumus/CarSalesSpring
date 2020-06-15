@@ -48,22 +48,21 @@ public class LoginController {
         return "login";
     }
 
-
+    /**
+     * autologin for test roles
+     */
     @PostMapping("/auth")
     public String makeAuthForTestRoles(HttpServletRequest request) {
-        String f = request.getParameter("login");
-        String r = f + 1;
         try {
             request.login(request.getParameter("login"), "1");
         } catch (ServletException e) {
             LOG.error("Error while login ", e);
         }
-
         return "redirect:/";
     }
 
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping("/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute("userId", null);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -80,9 +79,7 @@ public class LoginController {
      * org.springframework.security.authentication.AuthenticationTrustResolverImpl
      */
     private boolean isRememberMeAuthenticated() {
-
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return false;
         }
@@ -111,7 +108,5 @@ public class LoginController {
         }
         return targetUrl;
     }
-
-
 
 }

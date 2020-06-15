@@ -31,6 +31,8 @@ Admin: User func + CRUD of all users.
 As user login with set checkbox 'Remember me' - token saved to base and to browser cookies.  As long as user logged and dont press logout - he will have auto login function in token life time - set one day.
 Also Context remembers target page, that user looked last.
 
+##### Localization implemented. Resource Bundle 'ru', 'en'.
+
 ##### Postgresql used as general db. But there is an opportunity to get HSQLDB. You need only check hsqldb maven profile. 
 
 ##### All structure and initial data are populated via Liquibase.

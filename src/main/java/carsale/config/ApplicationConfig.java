@@ -4,21 +4,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
-
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Locale;
 import java.util.Properties;
-
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -88,21 +84,5 @@ public class ApplicationConfig {
         resolver.setDefaultLocale(new Locale(DEFAULT_LOCALE));
         return resolver;
     }
-
-/*
-
-    @Bean
-    public SpringSecurityDialect getSpringSecurityDialect() {
-        return new SpringSecurityDialect();
-    }
-
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-        interceptor.setParamName("locale");
-        registry.addInterceptor(interceptor);
-    }
-  */
 
 }
