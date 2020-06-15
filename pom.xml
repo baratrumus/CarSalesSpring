@@ -164,7 +164,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <db.url>jdbc:postgresql://localhost/carsDB</db.url>
+                <db.url>jdbc:postgresql://localhost/carsdb</db.url>
                 <db.username>postgres</db.username>
                 <db.password></db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -174,24 +174,15 @@
 
         <profile>
             <id>postgres</id>
-
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
-                <db.url>jdbc:postgresql://localhost:5432/carsDB?serverTimezone=UTC</db.url>
+                <db.url>jdbc:postgresql://localhost:5432/carsdb?serverTimezone=UTC</db.url>
                 <db.username>postgres</db.username>
                 <db.password>dfghjk</db.password>
                 <db.dialect>org.hibernate.dialect.PostgreSQL94Dialect</db.dialect>
 
                 <spring.db.profile>postgres</spring.db.profile>
             </properties>
-
-            <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>42.2.4</version>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>
@@ -199,7 +190,7 @@
 
             <properties>
                 <db.driver>org.hsqldb.jdbc.JDBCDriver</db.driver>
-                <db.url>jdbc:hsqldb:file:carsDB;sql.enforce_size=false;sql.syntax_pgs=true;hsqldb.lock_file=false</db.url>
+                <db.url>jdbc:hsqldb:file:carsdb;sql.enforce_size=false;sql.syntax_pgs=true;hsqldb.lock_file=false</db.url>
                 <db.username>sa</db.username>
                 <db.password></db.password>
                 <db.dialect>org.hibernate.dialect.HSQLDialect</db.dialect>
@@ -219,26 +210,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.8.8</version>
-                <configuration>
-                    <changeLogFile>src/main/resources/db/master.xml</changeLogFile>
-                    <url>${db.url}</url>
-                    <driver>${db.driver}</driver>
-                    <username>${db.username}</username>
-                    <password>${db.password}</password>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>update</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -325,6 +296,31 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.8.8</version>
+                <configuration>
+                    <changeLogFile>${basedir}/src/main/resources/db/master.xml</changeLogFile>
+                    <url>${db.url}</url>
+                    <driver>${db.driver}</driver>
+                    <username>${db.username}</username>
+                    <password>${db.password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
         </plugins>
     </build>
 

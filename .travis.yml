@@ -8,10 +8,16 @@ services:
 
 
 before_install:
-  - psql -c 'create database carsDB;' -U postgres
+  - psql -c 'create database carsdb;' -U postgres
 
 before_script:
 #  - psql -c 'create database carsDB;' -U postgres
+
+install:
+  mvn install -P travis -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script:
+  mvn test -P travis,liquibase,!main -B
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false

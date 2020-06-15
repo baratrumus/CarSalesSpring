@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/baratrumus/CarSalesSite.svg?branch=master)](https://travis-ci.org/baratrumus/CarSalesSite/withSpring)
-[![codecov](https://codecov.io/gh/baratrumus/CarSalesSite/branch/master/graph/badge.svg)](https://codecov.io/gh/baratrumus/CarSalesSite/withSpring)
+[![Build Status](https://travis-ci.org/baratrumus/CarSalesSite.svg?branch=master)](https://travis-ci.org/baratrumus/CarSalesSpring)
+[![codecov](https://codecov.io/gh/baratrumus/CarSalesSite/branch/master/graph/badge.svg)](https://codecov.io/gh/baratrumus/CarSalesSpring)
 
 
 
