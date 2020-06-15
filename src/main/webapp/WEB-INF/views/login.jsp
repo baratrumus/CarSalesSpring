@@ -33,32 +33,34 @@
 
         <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" var="isAuthorized"/>
 
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading"><spring:message code="loginForm.message"/></h2>
 
         <c:if test="${not empty param.error}">
-            <div class="errClass">Wrong login or password</div>
+            <div class="errClass"><spring:message code="loginForm.passError"/></div>
         </c:if>
 
         <c:if test="${not empty param.created}">
-            <div class="successClass">Registration is successeful</div>
+            <div class="successClass"><spring:message code="loginForm.successReg"/></div>
         </c:if>
 
-        <input type="text" name='username' id="username" class="form-control" placeholder="Login" required autofocus/>
+        <input type="text" name='username' id="username" class="form-control"
+               placeholder="<spring:message code="loginForm.login"/>" required autofocus/>
 
-        <input type="password" name='password' id="password" class="form-control" placeholder="Password" required/>
+        <input type="password" name='password' id="password" class="form-control"
+               placeholder="<spring:message code="loginForm.password"/>" required/>
 
         <div>
             <span>
                 <label class="checkbox">
-                    <input name="remember-me" id="remember-me" type="checkbox"/> <span>Remember me</span>
+                    <input name="remember-me" id="remember-me" type="checkbox"/> <span> <spring:message code="loginForm.remember"/> </span>
                 </label>
 
                 <a href="/login?locale=ru"><img src="${baseUrl}/img/ru.png"/></a>
                 <a href="/login?locale=en"><img src="${baseUrl}/img/en.png"/></a>
             </span>
 
-            <input class="button1"  type='submit' value='Sign in'/>
-            <input class="button1"  type='button' value='Main page' onclick="toMain()"/>
+            <input class="button1"  type='submit' value='<spring:message code="loginForm.signInBtn"/>'/>
+            <input class="button1"  type='button' value='<spring:message code="loginform.mainBtn"/>' onclick="toMain()"/>
         </div>
 
     </form>

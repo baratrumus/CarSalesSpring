@@ -4,10 +4,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import java.util.Locale;
 
 /**
  * @author Ivannikov Ilya (voldores@mail.ru)
@@ -20,6 +25,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan({"carsale.controller", "carsale.config"})
 public class WebConfig implements WebMvcConfigurer {
 
+    final private static String DEFAULT_LOCALE = "ru";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -54,9 +60,37 @@ public class WebConfig implements WebMvcConfigurer {
         return cmr;
     }
 
+    /**
+     * bean to set localization resourses
+     */
+    @Bean(name = "messageSource")
+    public ReloadableResourceBundleMessageSource getMessageSource() {
+        ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
+        resource.setBasename("classpath:/locales/messages");
+        resource.setCacheSeconds(1);
+        resource.setDefaultEncoding("UTF-8");
+        return resource;
+    }
 
 
+    /**
+     * bean to set default locale
+     */
+    @Bean(name = "localeResolver")
+    public CookieLocaleResolver getLocaleResolver() {
+        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        cookieLocaleResolver.setDefaultLocale(new Locale(DEFAULT_LOCALE));
+        cookieLocaleResolver.setCookieMaxAge(100000);
+        return cookieLocaleResolver;
+    }
 
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("locale");
+        registry.addInterceptor(localeChangeInterceptor); //.addPathPatterns("/*");
+    }
 
 
 
