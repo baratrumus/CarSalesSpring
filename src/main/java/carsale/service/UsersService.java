@@ -24,6 +24,7 @@ public class UsersService implements UserDetailsService {
     private final UsersRepository usersRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public UsersService(UsersRepository usersRepository,
                         PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
@@ -91,6 +92,8 @@ public class UsersService implements UserDetailsService {
     public boolean isLoginFree(String username) {
         return usersRepository.isLoginFree(username);
     }
+
+
 
     private void validateUsers(Users user) throws ValidationException {
         if (isNull(user)) {

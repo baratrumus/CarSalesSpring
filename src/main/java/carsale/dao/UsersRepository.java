@@ -21,8 +21,8 @@ import java.util.List;
 //Exception will be translated into subclasses of Spring's DataAccessExeption
 @Repository
 public class UsersRepository {
+    //@SuppressWarnings("unused")
     private static final Logger LOG = LoggerFactory.getLogger(UsersRepository.class);
-    //private final RoleRepository roleRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -83,8 +83,8 @@ public class UsersRepository {
     public Users getUserById(int id) {
         Users user = em.find(Users.class, id);
         if (user == null) {
-            throw new EntityNotFoundException("Can't find User for ID "
-                    + id);
+            LOG.error("Can't find User for ID " + id);
+            throw new EntityNotFoundException("Can't find User for ID " + id);
         }
         return user;
     }

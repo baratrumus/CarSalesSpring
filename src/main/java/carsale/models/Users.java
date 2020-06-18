@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -159,5 +160,25 @@ public class Users implements UserDetails {
         return enabled;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Users users = (Users) o;
+        return getId().equals(users.getId()) &&
+                getUsername().equals(users.getUsername()) &&
+                Objects.equals(getPassword(), users.getPassword()) &&
+                Objects.equals(getEmail(), users.getEmail()) &&
+                Objects.equals(getPhone(), users.getPhone()) &&
+                Objects.equals(isEnabled(), users.isEnabled());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword(), getEmail(), getPhone(), isEnabled());
+    }
 }

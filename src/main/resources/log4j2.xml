@@ -14,10 +14,12 @@
     <!--Этот кусок кода указывает уровни логера для конкретных пакетов.-->
     <Loggers>
         <!-- для конкретного пакета -->
-<!--        <logger name="org.springframework.security" level="debug"/>-->
+<!--    <logger name="org.springframework.security" level="debug">-->
 <!--        <AppenderRef ref="Console"/>-->
-        <logger name="org.springframework.web" level="debug"/>
-        <AppenderRef ref="Console"/>
+<!--    </logger>-->
+        <logger name="org.springframework.web" level="debug">
+             <AppenderRef ref="Console"/>
+        </logger>
      <!-- Здесь для всех пакетов, не отдельно -->
         <Root level="error">
             <AppenderRef ref="Console"/>
