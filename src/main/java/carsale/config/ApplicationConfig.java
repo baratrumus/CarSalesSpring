@@ -1,16 +1,20 @@
 package carsale.config;
 
+import carsale.controller.AdsController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
+
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Locale;
@@ -26,24 +30,64 @@ import org.apache.commons.dbcp2.BasicDataSource;
 @Configuration
 @ComponentScan({"carsale.service", "carsale.config", "carsale.dao"})
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:heroku.properties")
 @EnableTransactionManagement
 public class ApplicationConfig {
 
     final private static String DEFAULT_LOCALE = "ru";
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationConfig.class);
+    @Value("${database.driverClassName}")
+    private String driver;
+
+    @Value("${database.url}")
+    private String url;
+
+    @Value("${database.username}")
+    private String username;
+
+    @Value("${database.password}")
+    private String password;
+
+    @Autowired
+    private Environment env;
+
+    @PostConstruct
+    private void postConstruct() {
+        String activeProfile = "";
+        for (String profile : env.getActiveProfiles()) {
+            activeProfile = profile;
+            LOG.warn(">>>>>>" + profile + "\n");
+        }
+        if (activeProfile.equals("heroku")) {
+            driver =  env.getProperty("${heroku.driverClassName}");
+            url = env.getProperty("${heroku.url}");
+            username = env.getProperty("${heroku.username}");
+            password = env.getProperty("${heroku.password}");
+        }
+
+        LOG.error("DataSource from PostConstruct: \n"
+                + "Driver: " + driver
+                + "Url:" + url + "\n"
+                + "Username" + username + "\n"
+                + "Password" + password  + "\n");
+
+    }
+
 
     @Bean(name = "dataSource")
-    public DataSource dataSource(@Value("${database.driverClassName}") String driver,
-                                 @Value("${database.url}") String url,
-                                 @Value("${database.username}") String username,
-                                 @Value("${database.password}") String password) {
+    public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
+        LOG.warn("CarSales started with dataSource: \n"
+                + "Driver: " + driver + "\n"
+                + "Url:" + url + "\n"
+                + "Username" + username + "\n"
+                + "Password" + password + "\n");
         return dataSource;
     }
-
 
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,

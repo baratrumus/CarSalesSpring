@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AdsController {
 
-    @SuppressWarnings("unused")
     private static final Logger LOG = LoggerFactory.getLogger(AdsController.class);
     private AdsService adsService;
     private CarsService carsService;

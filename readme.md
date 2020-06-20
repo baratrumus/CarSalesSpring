@@ -12,6 +12,8 @@
 * Junit, Mockito
 * JSP, HTML, CSS, Bootstrap, Javascript, JQuery, JSON, Ajax
 * SL4J, LOG4J
+* Travis CI, Codecov, Codacy
+* Heroku deployed
 
 
  #### General functionality.
