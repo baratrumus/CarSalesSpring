@@ -287,11 +287,11 @@
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
                 <!--suppress UnresolvedMavenProperty -->
-                <db.url>${env.JDBC_DATABASE_URL}</db.url>
+                <db.url>jdbc:postgresql://ec2-34-206-31-217.compute-1.amazonaws.com:5432/dam4veuptk8jao?user=jkcmcdsjgemhby&amp;password=c066785ef517d6e22ca6aca9396d549c54fddcce94a9821c1c64d28ea9128892&amp;sslmode=require</db.url>
                 <!--suppress UnresolvedMavenProperty -->
-                <db.username>${env.JDBC_DATABASE_USERNAME}</db.username>
+                <db.username>jkcmcdsjgemhby</db.username>
                 <!--suppress UnresolvedMavenProperty -->
-                <db.password>${env.JDBC_DATABASE_PASSWORD}</db.password>
+                <db.password>c066785ef517d6e22ca6aca9396d549c54fddcce94a9821c1c64d28ea9128892</db.password>
 
 <!--   Its value will be used to replace the @spring.profiles.active@ placeholder in application.properties:-->
                 <spring.profiles.active>heroku</spring.profiles.active>
@@ -304,11 +304,10 @@
                         <artifactId>liquibase-maven-plugin</artifactId>
                         <version>3.8.8</version>
                         <configuration>
-                        <propertyFile>target/classes/heroku.properties</propertyFile>
+                            <propertyFile>target/classes/application.properties</propertyFile>
                             <changeLogFile>${basedir}/src/main/resources/db/master.xml</changeLogFile>
                             <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-<!--                        <dropFirst>true</dropFirst>-->
-                            <!--suppress UnresolvedMavenProperty -->
+                            <!--<dropFirst>true</dropFirst>-->
                             <url>${db.url}</url>
                             <driver>${db.driver}</driver>
                             <username>${db.username}</username>
@@ -322,6 +321,7 @@
                             </dependency>
                         </dependencies>
                     </plugin>
+
                 </plugins>
             </build>
         </profile>
@@ -330,7 +330,6 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
@@ -345,6 +344,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
                     <execution>
                         <phase>package</phase>
                         <goals>
@@ -363,13 +372,13 @@
                                     <artifactId>postgresql</artifactId>
                                     <version>9.4-1204-jdbc41</version>
                                     <destFileName>postgres.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
+                               </artifactItem>
+                               <artifactItem>
                                     <groupId>org.liquibase</groupId>
                                     <artifactId>liquibase-core</artifactId>
                                     <version>3.4.1</version>
                                     <destFileName>liquibase.jar</destFileName>
-                                </artifactItem>
+                               </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>

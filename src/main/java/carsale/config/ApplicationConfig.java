@@ -17,6 +17,8 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Locale;
 import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -30,7 +32,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 @Configuration
 @ComponentScan({"carsale.service", "carsale.config", "carsale.dao"})
 @PropertySource("classpath:application.properties")
-@PropertySource("classpath:heroku.properties")
 @EnableTransactionManagement
 public class ApplicationConfig {
 
@@ -48,31 +49,31 @@ public class ApplicationConfig {
     @Value("${database.password}")
     private String password;
 
+    @Value("${url}")
+    private String herokuUrl;
+
+    @Value("${username}")
+    private String herokuUsername;
+
+    @Value("${password}")
+    private String herokuPassword;
+
     @Autowired
     private Environment env;
+    private String dynoId = "";
 
     @PostConstruct
-    private void postConstruct() {
-        String activeProfile = "";
+    private void herokuInit() {
+        dynoId = System.getenv("DYNO");
         for (String profile : env.getActiveProfiles()) {
-            activeProfile = profile;
-            LOG.warn(">>>>>>" + profile + "\n");
+            LOG.warn("\n" + ">>>>>>" + profile + "\n");
         }
-        if (activeProfile.equals("heroku")) {
-            driver =  env.getProperty("${heroku.driverClassName}");
-            url = env.getProperty("${heroku.url}");
-            username = env.getProperty("${heroku.username}");
-            password = env.getProperty("${heroku.password}");
+        if (dynoId != null) {
+            url = System.getenv("JDBC_DATABASE_URL");
+            username = herokuUsername;
+            password = herokuPassword;
         }
-
-        LOG.error("DataSource from PostConstruct: \n"
-                + "Driver: " + driver
-                + "Url:" + url + "\n"
-                + "Username" + username + "\n"
-                + "Password" + password  + "\n");
-
     }
-
 
     @Bean(name = "dataSource")
     public DataSource dataSource() {
@@ -81,11 +82,6 @@ public class ApplicationConfig {
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-        LOG.warn("CarSales started with dataSource: \n"
-                + "Driver: " + driver + "\n"
-                + "Url:" + url + "\n"
-                + "Username" + username + "\n"
-                + "Password" + password + "\n");
         return dataSource;
     }
 

@@ -17,9 +17,12 @@
 <!--    <logger name="org.springframework.security" level="debug">-->
 <!--        <AppenderRef ref="Console"/>-->
 <!--    </logger>-->
+        config.logger = Logger.new(STDOUT)
+        config.logger.level = Logger::DEBUG
         <logger name="org.springframework.web" level="debug">
              <AppenderRef ref="Console"/>
         </logger>
+
      <!-- Здесь для всех пакетов, не отдельно -->
         <Root level="error">
             <AppenderRef ref="Console"/>
