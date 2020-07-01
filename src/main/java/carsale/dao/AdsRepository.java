@@ -36,7 +36,8 @@ public class AdsRepository {
 
 
     public List<Ads> getAll() {
-        return em.createQuery("from Ads ad join fetch ad.carDetails cr").getResultList();
+        List<Ads> al = em.createQuery("from Ads ad join fetch ad.carDetails cr").getResultList();
+        return al;
     }
 
 
@@ -44,6 +45,4 @@ public class AdsRepository {
         Ads ad = em.find(Ads.class, id);
         return ad;
     }
-
-
 }

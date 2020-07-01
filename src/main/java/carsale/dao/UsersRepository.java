@@ -93,9 +93,8 @@ public class UsersRepository {
     public boolean isLoginFree(String username) {
         Query query = em.createQuery("from Users where username = :paramName");
         query.setParameter("paramName", username);
-        boolean res = query.getResultList().isEmpty();
+        List<Users> ul = query.getResultList();
+        boolean res = ul.isEmpty();
         return res;
     }
-
-
 }

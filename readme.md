@@ -5,16 +5,28 @@
 
 ## Car sales site application. Version 2.0 Spring
 
+#####Application <a href="http://carsales42.herokuapp.com">deployed to Heroku</a>.
+
+
 #### Technologies
-* Maven
 * Spring MVC, Spring Security. 
 * PostgreSQL, HSQLDB, Liquibase, Hibernate with Spring Data
 * Junit, Mockito
 * JSP, HTML, CSS, Bootstrap, Javascript, JQuery, JSON, Ajax
 * SL4J, LOG4J
-* Travis CI, Codecov, Codacy
+* Travis CI, Codecov
 * Heroku deployed
+* Maven and plugins checkstyle, jacoco, webapp-runner
 
+
+ #### Local run 
+* Clone project. 
+* You are to have JDK, Maven, Tomcat installed.
+* Also you need PostgreSql. Create empty base named carsdb.
+* Run CarsLocalRun.but from app folder 
+* Open in browser localhost:8082/
+* Port can be changed in bat file, if you have it buzy.
+ 
 
  #### General functionality.
 Application have main page with all advertisments. This page is allowed for all users, including guests.
@@ -54,16 +66,17 @@ Also Context remembers target page, that user looked last.
 
 ## General views
 
- ![Sign up with validation](withSpring/readmePisc/signup.jpg) 
+ ![Sign up with validation](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/signup.JPG) 
  
- ![Main screen for guest](readmePisc/guestMain.jpg) 
+ ![Main screen for guest](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/guestMain.JPG) 
   
- ![Main screen for user](readmePisc/userMain.jpg) 
+ ![Main screen for user](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/userMain.JPG) 
    
- ![New advertisment with validation](readmePisc/newAd.jpg) 
+ ![New advertisment with validation](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/newAd.JPG) 
  
 
 
 TO DO :
-BaseSpringApp Locale MessageSource RU EN
+BaseSpringApp Locale RU EN main page
+Controller tests
 
