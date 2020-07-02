@@ -5,8 +5,16 @@
 
 ## Car sales site application. Version 2.0 Spring
 
-#####Application <a href="http://carsales42.herokuapp.com">deployed to Heroku</a>.
+##### Application <a href="http://carsales42.herokuapp.com">deployed to Heroku</a>.
+App is not realy adapted to mobiles.  Please use desktop.
 Wait a bit, heroku has init and loading lag.
+
+
+#### General functionality.
+Application have main page with all advertisments. This page is allowed for all users, including guests.
+Guest can sign up, sign in or use Test Role button for quick authorization and authentication .
+When authorized user appends new Ad, he chooses brand, model, bodytype, engine, photo, description, mileage, price.
+Admin can make CRUD operations on all users.
 
 
 #### Technologies
@@ -28,13 +36,6 @@ Wait a bit, heroku has init and loading lag.
 * Open in browser localhost:8082/
 * Port can be changed in bat file, if you have it buzy.
  
-
- #### General functionality.
-Application have main page with all advertisments. This page is allowed for all users, including guests.
-Guest can sign up, sign in or use Test Role button for quick authorization and authentication .
-When authorized user appends new Ad, he chooses brand, model, bodytype, engine, photo, description, mileage, price.
-Admin can make CRUD operations on all users.
-
 
 #### Authorities:
 Guest: looks all advertisments

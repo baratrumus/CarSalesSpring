@@ -132,7 +132,7 @@ public class AdsController {
         }
 
         Car car = new Car(carsService.getBrandById(Integer.parseInt(formDataWithFile.getBrands())),
-                          carsService.getModelById(Integer.parseInt()),
+                          carsService.getModelById(Integer.parseInt(modelStr)),
                           carsService.getBodyById(Integer.parseInt(formDataWithFile.getBody())),
                           carsService.getEngineById(Integer.parseInt(formDataWithFile.getEngine())),
                           formDataWithFile.getCaryear(),
