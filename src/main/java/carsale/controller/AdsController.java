@@ -126,9 +126,13 @@ public class AdsController {
         Users user = usersService.loadUserByUsername(authorizedUser.getUsername());
         byte[] byteArr = fileToByteArray(file);
         Timestamp dateNow = new Timestamp(System.currentTimeMillis());
+        String modelStr = formDataWithFile.getModels();
+        if (modelStr == null) {
+            modelStr = "1";
+        }
 
         Car car = new Car(carsService.getBrandById(Integer.parseInt(formDataWithFile.getBrands())),
-                          carsService.getModelById(Integer.parseInt(formDataWithFile.getModels())),
+                          carsService.getModelById(Integer.parseInt()),
                           carsService.getBodyById(Integer.parseInt(formDataWithFile.getBody())),
                           carsService.getEngineById(Integer.parseInt(formDataWithFile.getEngine())),
                           formDataWithFile.getCaryear(),
