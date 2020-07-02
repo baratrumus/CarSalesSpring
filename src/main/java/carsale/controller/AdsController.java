@@ -56,7 +56,6 @@ public class AdsController {
 
         Integer userId = (!"anonymousUser".equals(auth.getPrincipal().toString())) ?
                 usersService.loadUserByUsername(auth.getName()).getId() : null;
-
         request.getSession().setAttribute("userId", userId);
 
         //filters
@@ -100,7 +99,11 @@ public class AdsController {
     @GetMapping (value = "/ad/getModels", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Models> getModelsByBrand(@RequestParam("brandId") String brandId) {
-        return carsService.getModelsByBrandId(Integer.parseInt(brandId));
+        if (brandId == null) {
+            brandId = "1";
+        }
+        List<Models> modelsList = carsService.getModelsByBrandId(Integer.parseInt(brandId));
+        return modelsList;
     }
 
 

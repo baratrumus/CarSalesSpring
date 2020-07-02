@@ -6,6 +6,7 @@
 ## Car sales site application. Version 2.0 Spring
 
 #####Application <a href="http://carsales42.herokuapp.com">deployed to Heroku</a>.
+Wait a bit, heroku has init and loading lag.
 
 
 #### Technologies
@@ -47,7 +48,9 @@ Last day, In sale now, with Photo, By Brand.
 
 ## Details 
 
-#### Remember me function implemented. 
+##### Project divided by layers: View, Controller, Service, Repository
+
+##### Remember me function implemented. 
 As user login with set checkbox 'Remember me' - token saved to base and to browser cookies.  As long as user logged and dont press logout - he will have auto login function in token life time - set one day.
 Also Context remembers target page, that user looked last.
 
