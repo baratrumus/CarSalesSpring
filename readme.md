@@ -5,13 +5,13 @@
 
 ## Car sales site application. Version 2.0 Spring
 
-##### Application <a href="http://carsales42.herokuapp.com">deployed to Heroku</a>.
+##### Application <a href="https://carsales42.herokuapp.com">deployed to Heroku</a>.
 App is not realy adapted to mobiles.  Please use desktop.
 Wait a bit, heroku has init and loading lag.
 
 
 #### General functionality.
-Application have main page with all advertisments. This page is allowed for all users, including guests.
+Application have main page with all advertisements. This page is allowed for all users, including guests.
 Guest can sign up, sign in or use Test Role button for quick authorization and authentication .
 When authorized user appends new Ad, he chooses brand, model, bodytype, engine, photo, description, mileage, price.
 Admin can make CRUD operations on all users.
@@ -38,9 +38,9 @@ Admin can make CRUD operations on all users.
  
 
 #### Authorities:
-Guest: looks all advertisments
-User: Guest func + CRUD of his own advertisments, update own profile data. 
-Admin: User func + CRUD of all users.
+* Guest: looks all advertisements
+* User: Guest func + CRUD of his own advertisements, update own profile data. 
+* Admin: User func + CRUD of all users.
 
 
 #### Ads Filters:
@@ -76,7 +76,7 @@ Also Context remembers target page, that user looked last.
   
  ![Main screen for user](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/userMain.JPG) 
    
- ![New advertisment with validation](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/newAd.JPG) 
+ ![New advertisement with validation](https://github.com/baratrumus/CarSalesSpring/raw/master/readmePics/newAd.JPG) 
  
 
 

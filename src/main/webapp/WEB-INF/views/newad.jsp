@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Create advertisment</title>
+    <title>Create advertisement</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -24,7 +24,7 @@
 <body>
 
 <form:form id="adForm"  class="form_sign_up" onsubmit="return validateNewAd()" modelAttribute="FormDataWithFile" enctype="multipart/form-data" method='post' action="/ad/create">
-        <h2>Create advertisment</h2></br>
+        <h2>Create advertisement</h2></br>
 
         <span class="errClass">  ${error} </span>
 

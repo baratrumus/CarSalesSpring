@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset='UTF-8'>
-    <title>Update advertisment</title>
+    <title>Update advertisement</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -21,7 +21,7 @@
 </head>
 <body>
     <form:form id="editForm"  class="form_sign_up" onsubmit="return validatePrice()"  modelAttribute="FormDataWithFile"  method='post' action="/ad/update"  enctype="multipart/form-data">
-        <h2>Edit advertisment</h2><br/>
+        <h2>Edit advertisement</h2><br/>
 
         <span class="errClass">  ${error} </span>
 

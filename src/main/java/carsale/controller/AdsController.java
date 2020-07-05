@@ -149,8 +149,8 @@ public class AdsController {
                      Integer.parseInt(formDataWithFile.getPrice().trim()));
 
         if (adsService.save(ad).getId() == null) {
-            model.addAttribute("error", "Error in advertisment creation");
-            LOG.error("Error in advertisment creation");
+            model.addAttribute("error", "Error in advertisement creation");
+            LOG.error("Error in advertisement creation");
             return "newad";
         }
         request.getSession().setAttribute("adCreated", "yes");

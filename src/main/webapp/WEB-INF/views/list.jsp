@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Advertisments</title>
+    <title>Advertisements</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -56,19 +56,19 @@
         </security:authorize>
 
         <security:authorize access="hasRole('ROLE_ADMIN')">
-             <b>You can edit all users and advertisments.</b>
+             <b>You can edit all users and advertisements.</b>
         </security:authorize>
 
         <c:if test="${sessionScope.adCreated == 'yes'}">
-            <p><b>Your advertisment created.</b></p>
+            <p><b>Your advertisement created.</b></p>
         </c:if>
 
         <c:if test="${sessionScope.adEdited == 'yes'}">
-            <p><b>Your advertisment updated.</b></p>
+            <p><b>Your advertisement updated.</b></p>
         </c:if>
 
         <c:if test="${sessionScope.adDeleted == 'yes'}">
-            <p><b>Advertisment removed.</b></p>
+            <p><b>Advertisement removed.</b></p>
         </c:if>
 
         <c:if test="${sessionScope.uEdited == 'yes'}">
@@ -117,7 +117,7 @@
                 <li>
                     <form:form action="/ad/create" method='get'>
                         <button type="submit" class="button1">
-                            <span class="glyphicon glyphicon-pencil"></span> Create Advertisment
+                            <span class="glyphicon glyphicon-pencil"></span> Create Advertisement
                         </button>
                     </form:form>
                 </li>
