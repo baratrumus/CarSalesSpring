@@ -26,19 +26,23 @@ public class UsersController {
     private static final Logger LOG = LoggerFactory.getLogger(AdsController.class);
     private UsersService usersService;
 
-
     @Autowired
     public UsersController(UsersService usersService) {
         this.usersService = usersService;
     }
 
+    /**
+     *  method shows signup dialog
+     */
     @GetMapping(value = "/signup")
     public String signUpForm(Model model) {
         model.addAttribute("userForm", new Users());
         return "signup";
     }
 
-
+    /**
+     *  user creation
+     */
     @PostMapping("/signup")
     public String signUp(@ModelAttribute("userForm") Users userForm, Model model) {
 
@@ -59,7 +63,9 @@ public class UsersController {
         }
     }
 
-
+    /**
+     *  method shows users for admin panel
+     */
     @GetMapping("/admin")
     public String showUsers(Model model) {
         model.addAttribute("listOfUsers", usersService.getAll());
@@ -67,22 +73,24 @@ public class UsersController {
         return "admin";
     }
 
-
+    /**
+     *  method shows user update dialog
+     */
     @GetMapping("/update/{id}")
     public String showUpdate(@PathVariable int id, HttpServletRequest request, Model model) {
         String cameFromAdm = request.getParameter("cameFromAdm");
         model.addAttribute("cameFromAdm", cameFromAdm);
-
         Users user = usersService.getUserById(id);
         model.addAttribute("user", user);
         return "updateUser";
     }
 
-
+    /**
+     *  user update
+     */
     @PostMapping("/update")
     public String update(Model model, @RequestParam Map<String, String> allParams,
                          HttpServletRequest request) {
-
         int userId = Integer.parseInt(allParams.get("editedUserId"));
         Users baseUser = usersService.getUserById(userId);
         model.addAttribute("user", baseUser);
@@ -113,8 +121,9 @@ public class UsersController {
         }
     }
 
-
-
+    /**
+     *  user delete
+     */
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id, Model model) {
         Users user = usersService.getUserById(id);

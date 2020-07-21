@@ -1,6 +1,5 @@
 package carsale.config;
 
-import carsale.controller.AdsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Locale;
 import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -85,6 +81,10 @@ public class ApplicationConfig {
         return dataSource;
     }
 
+
+    /**
+     * entityManagerFactory declaration and Hibernate properties set
+     */
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
                                                                        @Value("${hibernate.dialect}") String dialect,

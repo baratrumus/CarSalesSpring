@@ -32,13 +32,15 @@ public class LoginController {
     private PersistentTokenRepository tokenRepository;
 
 
-
     @Autowired
     public LoginController(PersistentTokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
 
     }
 
+    /**
+     * method shows loggin dialog
+     */
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
         String targetUrl = getRememberMeTargetUrlFromSession(request);
@@ -75,7 +77,7 @@ public class LoginController {
     }
 
     /**
-     * Check if user is login by remember me cookie, refer
+     * Check if user is logged by remember me cookie, refer
      * org.springframework.security.authentication.AuthenticationTrustResolverImpl
      */
     private boolean isRememberMeAuthenticated() {

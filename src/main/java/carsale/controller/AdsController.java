@@ -48,7 +48,9 @@ public class AdsController {
         this.usersService = usersService;
     }
 
-
+    /**
+     *  method shows ads list with filter handler
+     */
     @GetMapping(value = "/")
     public String showAds(Model model, HttpServletRequest request) {
 
@@ -58,7 +60,6 @@ public class AdsController {
                 usersService.loadUserByUsername(auth.getName()).getId() : null;
         request.getSession().setAttribute("userId", userId);
 
-        //filters
         String onlyUserAds = request.getParameter("onlyUserAds");
         String lastDay = request.getParameter("lastDay");
         String inSale = request.getParameter("inSale");
@@ -83,7 +84,9 @@ public class AdsController {
         return "list";
     }
 
-
+    /**
+     * delete advertisement
+     */
     @PostMapping(value = "/ad/delete")
     public String delete(HttpServletRequest request) {
         Ads ad = adsService.getById(Integer.parseInt(request.getParameter("delId")));
@@ -95,7 +98,10 @@ public class AdsController {
     }
 
 
-    //ajax
+    /**
+     *   Ajax handler
+     *   Returns list of models by brand id
+     */
     @GetMapping (value = "/ad/getModels", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Models> getModelsByBrand(@RequestParam("brandId") String brandId) {
@@ -107,7 +113,9 @@ public class AdsController {
     }
 
 
-
+    /**
+     *  method shows advertisement creation dialog
+     */
     @GetMapping (value = "/ad/create")
     public String showCreate(Model model) {
         model.addAttribute("brandList", carsService.getBrands());
@@ -116,7 +124,9 @@ public class AdsController {
         return  "newad";
     }
 
-
+    /**
+     *  Advertisement creation
+     */
     @PostMapping (value = "/ad/create")
     public String create(@AuthenticationPrincipal UserDetails authorizedUser,
                          HttpServletRequest request, Model model,
@@ -158,6 +168,9 @@ public class AdsController {
     }
 
 
+    /**
+     *  Convertation multipartFile to byteArray
+     */
     private byte[] fileToByteArray(MultipartFile multipartFile) {
         byte[] bArr = new byte[]{};
         if (Objects.nonNull(multipartFile)) {
@@ -171,6 +184,9 @@ public class AdsController {
     }
 
 
+    /**
+     *  Advertisement update dialog shows
+     */
     @GetMapping("ad/update/{adId}")
     public String showUpdate(@PathVariable String adId, Model model) {
         Ads ad = adsService.getById(Integer.parseInt(adId));
@@ -179,6 +195,9 @@ public class AdsController {
     }
 
 
+    /**
+     *  Advertisement update
+     */
     @PostMapping (value = "/ad/update")
     public String update(Model model,
                         HttpServletRequest request,
